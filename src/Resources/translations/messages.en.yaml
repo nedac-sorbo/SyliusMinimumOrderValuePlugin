@@ -1,0 +1,4 @@
+nedac_sylius_minimum_order_value_plugin:
+  ui:
+    minimum_order_value: Minimum order value
+    enabled: Enabled

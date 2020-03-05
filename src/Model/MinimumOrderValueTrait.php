@@ -11,7 +11,7 @@ trait MinimumOrderValueTrait
     /**
      * @ORM\Column(name="minimum_order_value", type="integer", nullable=true)
      */
-    private ?int $minimumOrderValue;
+    private ?int $minimumOrderValue = null;
 
     public function getMinimumOrderValue(): ?int
     {

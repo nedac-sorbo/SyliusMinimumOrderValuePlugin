@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Application\Entity\Channel;
 
 use Doctrine\ORM\Mapping as ORM;
-use Nedac\SyliusMinimumOrderValuePlugin\Model\MinimumOrderValueAwareInterface;
-use Nedac\SyliusMinimumOrderValuePlugin\Model\MinimumOrderValueTrait;
+use Nedac\SyliusMinimumOrderValuePlugin\Model\ChannelInterface as NedacSyliusMinimumOrderValuePluginChannelInterface;
+use Nedac\SyliusMinimumOrderValuePlugin\Model\MinimumOrderValueTrait as
+    NedacSyliusMinimumOrderValuePluginMinimumOrderValueTrait;
 use Sylius\Component\Core\Model\Channel as BaseChannel;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="sylius_channel")
  */
-class Channel extends BaseChannel implements MinimumOrderValueAwareInterface
+class Channel extends BaseChannel implements NedacSyliusMinimumOrderValuePluginChannelInterface
 {
-    use MinimumOrderValueTrait;
+    use NedacSyliusMinimumOrderValuePluginMinimumOrderValueTrait;
 }

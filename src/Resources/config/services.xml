@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="nedac.sylius_minimum_order_value_plugin.form.extension.channel"
+                 class="Nedac\SyliusMinimumOrderValuePlugin\Form\ChannelTypeExtension">
+            <tag name="form.type_extension"
+                 extended_type="Sylius\Bundle\ChannelBundle\Form\Type\ChannelType" />
+        </service>
+
+        <service id="nedac.sylius_minimum_order_value_plugin.block_event_listener.admin.channel.create.javascripts"
+                 class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+            <argument>@NedacSyliusMinimumOrderValuePlugin/_javascripts.html.twig</argument>
+            <tag name="kernel.event_listener"
+                 event="sonata.block.event.sylius.admin.channel.create.javascripts"
+                 method="onBlockEvent" />
+        </service>
+
+        <service id="nedac.sylius_minimum_order_value_plugin.block_event_listener.admin.channel.edit.javascripts"
+                 class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+            <argument>@NedacSyliusMinimumOrderValuePlugin/_javascripts.html.twig</argument>
+            <tag name="kernel.event_listener"
+                 event="sonata.block.event.sylius.admin.channel.update.javascripts"
+                 method="onBlockEvent" />
+        </service>
+    </services>
+</container>
