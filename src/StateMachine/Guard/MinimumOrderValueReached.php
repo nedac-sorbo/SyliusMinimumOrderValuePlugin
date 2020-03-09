@@ -29,5 +29,4 @@ final class MinimumOrderValueReached
 
         return $this->calculator->getSubtotal($order) >= $minimumAmount;
     }
-
 }
