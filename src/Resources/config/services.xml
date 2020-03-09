@@ -25,5 +25,11 @@
                  event="sonata.block.event.sylius.admin.channel.update.javascripts"
                  method="onBlockEvent" />
         </service>
+
+        <service id="nedac.sylius_minimum_order_value_plugin.state_machine.guard.minimum_order_value_reached"
+                 class="Nedac\SyliusMinimumOrderValuePlugin\StateMachine\Guard\MinimumOrderValueReached"
+                 public="true">
+                <argument type="service" id="sylius.calculator.order_items_subtotal" />
+        </service>
     </services>
 </container>
