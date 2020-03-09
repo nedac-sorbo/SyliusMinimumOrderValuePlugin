@@ -11,3 +11,6 @@
 
 /behat.yml
 /phpspec.yml
+
+.phpcs-cache
+.phpunit.result.cache
