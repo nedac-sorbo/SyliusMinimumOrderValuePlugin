@@ -4,10 +4,16 @@
     "keywords": ["sylius", "sylius-plugin", "minimum", "order", "value"],
     "description": "With this Sylius plugin a minimum order value can be set for each channel.",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":"git@github.com:4c0n/Sylius.git"
+        }
+    ],
     "require": {
         "php": "^7.4",
 
-        "sylius/sylius": "1.6.*"
+        "sylius/sylius": "dev-feature/separate-order-items-subtotal-calculation-logic"
     },
     "require-dev": {
         "behat/behat": "^3.4",
