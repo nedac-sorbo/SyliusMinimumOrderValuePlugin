@@ -1,4 +1,6 @@
 nedac_sylius_minimum_order_value_plugin:
   ui:
-    minimum_order_value: Minimum order value
-    enabled: Enabled
+    minimum_order_value: "Minimum order value"
+    enabled: "Enabled"
+    attention: "Attention"
+    minimum_not_yet_reached: "Sorry you can't order yet. There is a set minimum order value of: %minimumOrderValue% <br /><br />You must add more items to your cart worth %difference%, in order to proceed with the checkout."

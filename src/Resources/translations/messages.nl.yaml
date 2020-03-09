@@ -1,4 +1,6 @@
 nedac_sylius_minimum_order_value_plugin:
   ui:
-    minimum_order_value: Minimaal bestelbedrag
-    enabled: Ingeschakeld
+    minimum_order_value: "Minimaal bestelbedrag"
+    enabled: "Ingeschakeld"
+    attention: "Let op"
+    minimum_not_yet_reached: "Het minimum bestelbedrag is: %minimumOrderValue% <br /><br />Nog te besteden voordat het minimum bestelbedrag bereikt is: %difference%."
