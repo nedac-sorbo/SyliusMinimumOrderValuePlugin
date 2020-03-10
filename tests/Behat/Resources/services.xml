@@ -12,6 +12,8 @@
         <service id="nedac_sylius_minimum_order_value_plugin.behat.context.ui.admin.channel"
                  class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Admin\ChannelContext">
             <argument type="service" id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create" />
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.manager.channel" />
         </service>
     </services>
 </container>
