@@ -7,7 +7,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url":"git@github.com:4c0n/Sylius.git"
+            "url":"https://github.com/nedac-sorbo/SyliusMinimumOrderValuePlugin.git"
         }
     ],
     "require": {
