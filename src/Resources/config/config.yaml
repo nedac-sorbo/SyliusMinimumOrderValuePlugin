@@ -1,0 +1,12 @@
+sylius_shop:
+  checkout_resolver:
+    enabled: false
+
+winzou_state_machine:
+  sylius_order_checkout:
+    callbacks:
+      guard:
+        minimum_order_amount_reached:
+          on: ['address', 'skip_shipping', 'select_shipping', 'skip_payment', 'select_payment', 'complete']
+          do: ['@nedac.sylius_minimum_order_value_plugin.state_machine.guard.minimum_order_value_reached', 'isMinimumOrderValueReached']
+          args: ['object']
