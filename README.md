@@ -1,3 +1,9 @@
+<div class="repo-badge inline-block vertical-align">
+    <a id="status-image-popup" title="Latest push build on default branch: started" name="status-images" class="pointer open-popup">
+        <img src="https://travis-ci.com/nedac-sorbo/SyliusMinimumOrderValuePlugin.svg?branch=master" alt="build:started">
+    </a>
+</div>
+
 #### Installation:
 1. Install using composer:
     ```bash
