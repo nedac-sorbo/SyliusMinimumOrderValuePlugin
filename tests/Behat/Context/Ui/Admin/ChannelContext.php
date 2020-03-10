@@ -84,4 +84,12 @@ final class ChannelContext implements Context
     {
         $this->createPage->fillInMinimumOrderValue($minimum);
     }
+
+    /**
+     * @Then I scroll down
+     */
+    public function iScrollDown(): void
+    {
+        $this->createPage->scrollDown();
+    }
 }

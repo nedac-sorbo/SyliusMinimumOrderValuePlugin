@@ -80,6 +80,15 @@ final class CreatePage extends SymfonyPage implements CreatePageInterface
         return $elementValue === $value;
     }
 
+    public function scrollDown(): void
+    {
+        $element = $this->getDocument()->find('css', '.pushable');
+        Assert::notNull($element);
+
+        $element->keyPress(34);
+        $element->keyPress(34);
+    }
+
     public function getRouteName(): string
     {
         return 'sylius_admin_channel_create';
