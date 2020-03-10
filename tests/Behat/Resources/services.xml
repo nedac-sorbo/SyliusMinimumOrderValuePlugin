@@ -3,6 +3,15 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <defaults public="true" />
-        <!-- Put your Behat services here -->
+
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel\CreatePage"
+                 parent="sylius.behat.symfony_page"
+                 public="false" />
+
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.context.ui.admin.channel"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Admin\ChannelContext">
+            <argument type="service" id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create" />
+        </service>
     </services>
 </container>
