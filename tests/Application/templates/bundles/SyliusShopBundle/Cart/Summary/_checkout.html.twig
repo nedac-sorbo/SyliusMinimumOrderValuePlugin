@@ -13,7 +13,7 @@
         <i class="warning icon"></i>
         <div class="content">
             <div class="header">{{ 'nedac_sylius_minimum_order_value_plugin.ui.attention'|trans }}</div>
-            <p>{{ 'nedac_sylius_minimum_order_value_plugin.ui.minimum_not_yet_reached'|trans({ '%minimumOrderValue% ': formattedMinimum, '%difference%': formattedDifference })|raw('br') }}</p>
+            <p id="nedac-sylius-minimum-order-value-plugin-message">{{ 'nedac_sylius_minimum_order_value_plugin.ui.minimum_not_yet_reached'|trans({ '%minimumOrderValue% ': formattedMinimum, '%difference%': formattedDifference })|raw('br') }}</p>
         </div>
     </div>
 {% endif %}

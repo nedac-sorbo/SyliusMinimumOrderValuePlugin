@@ -14,7 +14,7 @@
 
     {{ sonata_block_render_event('sylius.shop.partial.cart.summary.after_widget_content', {'cart': cart}) }}
 </div>
-<div class="ui large flowing cart hidden popup">
+<div class="ui large flowing cart hidden popup" id="nedac-sylius-minimum-order-value-plugin-popup">
     {{ sonata_block_render_event('sylius.shop.partial.cart.summary.before_popup_content', {'cart': cart}) }}
 
     {% if cart.empty %}

@@ -5,26 +5,16 @@ declare(strict_types=1);
 namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Doctrine\Common\Persistence\ObjectManager;
-use Nedac\SyliusMinimumOrderValuePlugin\Model\ChannelInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
 use Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel\CreatePageInterface;
 use Webmozart\Assert\Assert;
 
 final class ChannelContext implements Context
 {
     private CreatePageInterface $createPage;
-    private SharedStorageInterface $sharedStorage;
-    private ObjectManager $channelManager;
 
-    public function __construct(
-        CreatePageInterface $createPage,
-        SharedStorageInterface $sharedStorage,
-        ObjectManager $channelManager
-    ) {
+    public function __construct(CreatePageInterface $createPage)
+    {
         $this->createPage = $createPage;
-        $this->sharedStorage = $sharedStorage;
-        $this->channelManager = $channelManager;
     }
 
     /**
@@ -93,27 +83,5 @@ final class ChannelContext implements Context
     public function iFillInAMinimumOrderValueOf(string $minimum): void
     {
         $this->createPage->fillInMinimumOrderValue($minimum);
-    }
-
-    /**
-     * @When I wait :seconds seconds
-     * @param string $seconds
-     */
-    public function iWaitSeconds(string $seconds): void
-    {
-        sleep((int) $seconds);
-    }
-
-    /**
-     * @Given the channel has a minimum order value of :minimum
-     * @param string $minimum
-     */
-    public function theChannelHasAMinimumOrderValueOf(string $minimum): void
-    {
-        /** @var ChannelInterface $channel */
-        $channel = $this->sharedStorage->get('channel');
-        $channel->setMinimumOrderValue(((int) ((float) $minimum) * 100));
-
-        $this->channelManager->flush();
     }
 }

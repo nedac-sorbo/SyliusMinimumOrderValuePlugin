@@ -4,6 +4,15 @@
     <services>
         <defaults public="true" />
 
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.context.wait"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\WaitContext" />
+
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.context.setup.channel"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Setup\ChannelContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.manager.channel" />
+        </service>
+
         <service id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create"
                  class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel\CreatePage"
                  parent="sylius.behat.symfony_page"
@@ -12,8 +21,16 @@
         <service id="nedac_sylius_minimum_order_value_plugin.behat.context.ui.admin.channel"
                  class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Admin\ChannelContext">
             <argument type="service" id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create" />
-            <argument type="service" id="sylius.behat.shared_storage" />
-            <argument type="service" id="sylius.manager.channel" />
+        </service>
+
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.page.shop.cart_summary"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Shop\CartSummaryPage"
+                 parent="sylius.behat.symfony_page"
+                 public="false" />
+
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.context.ui.shop.cart"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Shop\CartContext">
+            <argument type="service" id="nedac_sylius_minimum_order_value_plugin.behat.page.shop.cart_summary" />
         </service>
     </services>
 </container>
