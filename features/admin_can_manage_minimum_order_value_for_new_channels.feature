@@ -37,6 +37,7 @@ Feature:
     Then I should see that the minimum order value enabled toggle is "on"
     And I should see that the minimum order value input is "enabled"
     When I fill in a minimum order value of "1000"
+    And I wait 1 seconds
     And I add it
     Then I should be notified that it has been successfully created
     And I should see that the minimum order value input is "1000.00"
