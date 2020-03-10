@@ -29,7 +29,6 @@ Feature:
     And I should see that the minimum order value input is "empty"
     And the channel "Mobile channel" should appear in the registry
 
-  @current
   Scenario: Adding a channel with a minimum order value
     When I choose "US Dollar" as the base currency
     And I choose "English (United States)" as a default locale
