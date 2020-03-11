@@ -137,6 +137,15 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
         // ...
     }
     ```
+    If the file `src/entity/Channel/Channel.php` does not yet exit, please create it using this example.
+    When you do, also add the following section to `config/packages/_sylius.yaml`:
+    ```yaml
+    sylius_channel:
+        resources:
+            channel:
+                classes:
+                    model: App\Entity\Channel\Channel
+    ```
 
 5. Generate and run database migration:
     ```bash
