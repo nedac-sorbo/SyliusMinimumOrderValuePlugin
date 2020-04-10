@@ -13,7 +13,9 @@ Feature:
     And I specify the username as "admin@example.com"
     And I specify the password as "sylius"
     And I log in
+    And I wait 2 seconds
     And I want to create a new channel
+    And I wait 2 seconds
     And I specify its code as "MOBILE"
     And I name it "Mobile channel"
 
