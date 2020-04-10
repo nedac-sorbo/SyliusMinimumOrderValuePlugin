@@ -14,12 +14,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Webmozart\Assert\Assert;
 
 final class ChannelTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $formModifier = function (FormInterface $form, string $currencyCode, ?int $minimumOrderValue = null): void {
+        $formModifier = function (?FormInterface $form, ?string $currencyCode, ?int $minimumOrderValue = null): void {
+            Assert::notNull($form);
+            Assert::notNull($currencyCode);
+
             $options = [
                 'label' => 'nedac_sylius_minimum_order_value_plugin.ui.minimum_order_value',
                 'currency' => $currencyCode,
