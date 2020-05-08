@@ -81,6 +81,13 @@ application level as with any Symfony bundle configuration.
 
 Please see the official Sylius docs on how to configure the checkout resolver, should there be any need to do so.
 
+##### Supported Sylius versions:
+<table>
+    <tr><td>1.6</td></tr>
+</table>
+
+
+> **_NOTE:_** *This plugin requires PHP 7.4 or up*
 
 #### Installation:
 1. Install using composer:
