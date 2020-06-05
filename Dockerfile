@@ -138,4 +138,4 @@ RUN set -eux; \
     apt install -yqq google-chrome-stable; \
     apt clean
 
-CMD ["google-chrome-stable", "--enable-automation", "--disable-background-networking", "--no-default-browser-check", "--no-first-run", "--disable-popup-blocking", "--disable-default-apps", "--allow-insecure-localhost", "--disable-translate", "--disable-extensions", "--no-sandbox", "--enable-features=Metal", "--headless", "--remote-debugging-port=9222", "--window-size=2880,1800", "--proxy-server='direct://'", "--proxy-bypass-list='*'", "http://127.0.0.1"]
+CMD ["google-chrome-stable", "--enable-logging",  "--v=1", "--enable-automation", "--disable-background-networking", "--no-default-browser-check", "--no-first-run", "--disable-popup-blocking", "--disable-default-apps", "--allow-insecure-localhost", "--disable-translate", "--disable-extensions", "--no-sandbox", "--enable-features=Metal", "--headless", "--remote-debugging-port=9222", "--window-size=2880,1800", "--proxy-server='direct://'", "--proxy-bypass-list='*'", "http://127.0.0.1"]
