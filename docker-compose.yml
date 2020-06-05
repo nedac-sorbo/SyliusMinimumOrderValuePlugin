@@ -51,6 +51,8 @@ services:
       context: .
       target: sylius_minimum_order_value_plugin_chrome
     image: nedac/sylius_minimum_order_value_plugin_chrome:latest
+    volumes:
+      - /dev/shm:/dev/shm
     ports:
       - "9222:9222"
     network_mode: host
