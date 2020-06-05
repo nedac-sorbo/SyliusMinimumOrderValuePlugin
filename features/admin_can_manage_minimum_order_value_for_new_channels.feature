@@ -13,9 +13,7 @@ Feature:
     And I specify the username as "admin@example.com"
     And I specify the password as "sylius"
     And I log in
-    And I wait 2 seconds
     And I want to create a new channel
-    And I wait 2 seconds
     And I specify its code as "MOBILE"
     And I name it "Mobile channel"
 
@@ -26,7 +24,6 @@ Feature:
     And I should see that the minimum order value input is "disabled"
     And I should see that the minimum order value input is empty
     And I should see that the minimum order value input label is "€"
-    And I scroll down
     When I add it
     Then I should be notified that it has been successfully created
     And I should see that the minimum order value input is "empty"
@@ -35,12 +32,10 @@ Feature:
   Scenario: Adding a channel with a minimum order value
     When I choose "US Dollar" as the base currency
     And I choose "English (United States)" as a default locale
-    And I wait 1 seconds
     And I set the minimum order value enabled toggle to "on"
     Then I should see that the minimum order value enabled toggle is "on"
     And I should see that the minimum order value input is "enabled"
     When I fill in a minimum order value of "1000"
-    And I scroll down
     And I add it
     Then I should be notified that it has been successfully created
     And I should see that the minimum order value input is "1000.00"
@@ -57,7 +52,6 @@ Feature:
   Scenario: Toggle enables or clears the input
     When I choose "US Dollar" as the base currency
     And I choose "English (United States)" as a default locale
-    And I wait 1 seconds
     And I set the minimum order value enabled toggle to "on"
     Then I should see that the minimum order value enabled toggle is "on"
     And I should see that the minimum order value input is "enabled"
