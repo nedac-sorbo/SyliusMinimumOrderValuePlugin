@@ -47,10 +47,10 @@ services:
     network_mode: host
 
   chrome:
-    image: selenium/standalone-chrome-debug:latest
-    volumes:
-      - /dev/shm:/dev/shm
-      - ./tests/Resources/video:/video
+    build:
+      context: .
+      target: sylius_minimum_order_value_plugin_chrome
+    image: nedac/sylius_minimum_order_value_plugin_chrome:latest
     ports:
-      - "5900:5900"
+      - "9222:9222"
     network_mode: host
