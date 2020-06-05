@@ -8,12 +8,10 @@ interface CreatePageInterface
 {
     public function assertMinimumOrderValueEnabledToggleOn(): void;
     public function assertMinimumOrderValueEnabledToggleOff(): void;
-    public function isMinimumOrderValueInputDisabled(): bool;
+    public function isMinimumOrderValueInputState(bool $disabled): bool;
     public function isMinimumOrderValueInputEmpty(): bool;
     public function isMinimumOrderValueInputLabelText(string $labelText): bool;
-    public function enable(): void;
-    public function disable(): void;
+    public function toggle(): void;
     public function fillInMinimumOrderValue(string $minimum): void;
     public function isMinimumOrderValueInputValue(string $value): bool;
-    public function scrollDown(): void;
 }

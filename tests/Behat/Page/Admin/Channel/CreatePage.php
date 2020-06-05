@@ -6,37 +6,44 @@ namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel;
 
 use Behat\Mink\Element\NodeElement;
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
-use Sylius\Behat\Behaviour\Toggles;
 use Webmozart\Assert\Assert;
 
 final class CreatePage extends SymfonyPage implements CreatePageInterface
 {
-    use Toggles;
-
-    protected function getToggleableElement(): NodeElement
+    private function isCheckboxChecked(): bool
     {
-        $element = $this->getDocument()->findById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
-        Assert::notNull($element);
-
-        return $element;
+        return $this->getSession()->wait(
+            500,
+            <<<JS
+document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle').checked
+JS
+        );
     }
 
     public function assertMinimumOrderValueEnabledToggleOn(): void
     {
-        $this->assertCheckboxState($this->getToggleableElement(), true);
+        Assert::true($this->isCheckboxChecked());
     }
 
     public function assertMinimumOrderValueEnabledToggleOff(): void
     {
-        $this->assertCheckboxState($this->getToggleableElement(), false);
+        Assert::false($this->isCheckboxChecked());
     }
 
-    public function isMinimumOrderValueInputDisabled(): bool
+    public function isMinimumOrderValueInputState(bool $disabled): bool
     {
-        $element = $this->getDocument()->findById('sylius_channel_minimumOrderValue');
-        Assert::notNull($element);
+        $this->getSession()->executeScript(<<<JS
+document.getElementById('sylius_channel_minimumOrderValue').scrollIntoView();
+JS
+        );
 
-        return $element->hasAttribute('disabled');
+        return $this->getSession()->wait(
+            10000,
+            sprintf(
+                "document.getElementById('sylius_channel_minimumOrderValue').disabled === %s",
+                var_export($disabled, true)
+            )
+        ) === $disabled;
     }
 
     public function isMinimumOrderValueInputEmpty(): bool
@@ -51,8 +58,6 @@ final class CreatePage extends SymfonyPage implements CreatePageInterface
 
     public function isMinimumOrderValueInputLabelText(string $labelText): bool
     {
-        usleep(500000);
-
         $element = $this->getDocument()->find(
             'css',
             '#nedac-sylius-minimum-order-value-plugin-admin-segment > div.field > div > div'
@@ -80,17 +85,18 @@ final class CreatePage extends SymfonyPage implements CreatePageInterface
         return $elementValue === $value;
     }
 
-    public function scrollDown(): void
-    {
-        $element = $this->getDocument()->find('css', '.pushable');
-        Assert::notNull($element);
-
-        $element->keyPress(34);
-        $element->keyPress(34);
-    }
-
     public function getRouteName(): string
     {
         return 'sylius_admin_channel_create';
+    }
+
+    public function toggle(): void
+    {
+        $this->getSession()->executeScript(<<<JS
+const toggle = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
+toggle.scrollIntoView();
+toggle.click();
+JS
+        );
     }
 }

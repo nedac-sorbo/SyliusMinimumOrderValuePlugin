@@ -4,9 +4,6 @@
     <services>
         <defaults public="true" />
 
-        <service id="nedac_sylius_minimum_order_value_plugin.behat.context.wait"
-                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\WaitContext" />
-
         <service id="nedac_sylius_minimum_order_value_plugin.behat.context.setup.channel"
                  class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Setup\ChannelContext">
             <argument type="service" id="sylius.behat.shared_storage" />

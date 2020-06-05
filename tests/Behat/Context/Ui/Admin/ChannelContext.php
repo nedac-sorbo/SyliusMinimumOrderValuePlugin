@@ -41,9 +41,9 @@ final class ChannelContext implements Context
     public function iShouldSeeThatTheMinimumOrderValueInputIs(string $state): void
     {
         if ('disabled' === $state) {
-            Assert::true($this->createPage->isMinimumOrderValueInputDisabled());
+            Assert::true($this->createPage->isMinimumOrderValueInputState(true));
         } elseif ('enabled' === $state) {
-            Assert::false($this->createPage->isMinimumOrderValueInputDisabled());
+            Assert::false($this->createPage->isMinimumOrderValueInputState(false));
         } elseif ('empty' === $state) {
             Assert::true($this->createPage->isMinimumOrderValueInputEmpty());
         } else {
@@ -67,10 +67,8 @@ final class ChannelContext implements Context
      */
     public function iSetTheMinimumOrderValueEnabledToggleTo(string $onOrOff): void
     {
-        if ('on' === $onOrOff) {
-            $this->createPage->enable();
-        } elseif ('off' === $onOrOff) {
-            $this->createPage->disable();
+        if ('on' === $onOrOff || 'off' === $onOrOff) {
+            $this->createPage->toggle();
         } else {
             throw new \Exception('Unsupported!');
         }
@@ -83,13 +81,5 @@ final class ChannelContext implements Context
     public function iFillInAMinimumOrderValueOf(string $minimum): void
     {
         $this->createPage->fillInMinimumOrderValue($minimum);
-    }
-
-    /**
-     * @Then I scroll down
-     */
-    public function iScrollDown(): void
-    {
-        $this->createPage->scrollDown();
     }
 }

@@ -91,7 +91,7 @@ class NedacSyliusMinimumOrderValuePlugin {
       this.minimumOrderValueInput.disabled = true;
       this.toggle.checked = false;
     } else {
-      this.minimumOrderValueInput.removeAttribute('disabled');
+      this.minimumOrderValueInput.disabled = false;
       this.toggle.checked = true;
     }
   }

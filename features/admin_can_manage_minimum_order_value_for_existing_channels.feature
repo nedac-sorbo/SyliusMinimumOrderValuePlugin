@@ -17,7 +17,6 @@ Feature:
   Scenario: Editing the minimum order value of a channel that already has a minimum order value set
     And the channel has a minimum order value of "1000"
     And I want to modify a channel "Web Channel"
-    When I wait 1 seconds
     Then I should see that the minimum order value enabled toggle is "on"
     And I should see that the minimum order value input is "enabled"
     And I should see that the minimum order value input is "1000.00"
@@ -30,7 +29,7 @@ Feature:
   Scenario: Removing the minimum order value of a channel
     And the channel has a minimum order value of "1000"
     And I want to modify a channel "Web Channel"
-    When I wait 1 seconds
+    And I should see that the minimum order value enabled toggle is "on"
     And I set the minimum order value enabled toggle to "off"
     Then I should see that the minimum order value input is "empty"
     And I should see that the minimum order value input is "disabled"
@@ -42,15 +41,15 @@ Feature:
 
   Scenario: Setting the minimum order value of a channel that does not have a minimum order value set
     And I want to modify a channel "Web Channel"
-    When I wait 1 seconds
     Then I should see that the minimum order value enabled toggle is "off"
     And I should see that the minimum order value input is "disabled"
     And I should see that the minimum order value input is empty
     And I should see that the minimum order value input label is "€"
     When I set the minimum order value enabled toggle to "on"
-    And I fill in a minimum order value of "456.78"
+    Then I should see that the minimum order value input is "enabled"
+    And I should see that the minimum order value enabled toggle is "on"
+    When I fill in a minimum order value of "456.78"
     And I save my changes
-    And I wait 1 seconds
     Then I should be notified that it has been successfully edited
     And I should see that the minimum order value input is "456.78"
     And I should see that the minimum order value input is "enabled"

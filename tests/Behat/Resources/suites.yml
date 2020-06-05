@@ -24,7 +24,6 @@ default:
                 - sylius.behat.context.ui.admin.notification
 
                 - nedac_sylius_minimum_order_value_plugin.behat.context.ui.admin.channel
-                - nedac_sylius_minimum_order_value_plugin.behat.context.wait
             filters:
                 tags: "@minimum_order_value&&@admin"
         visitor:
@@ -53,6 +52,5 @@ default:
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.shop.checkout.complete
                 - nedac_sylius_minimum_order_value_plugin.behat.context.ui.shop.cart
-                - nedac_sylius_minimum_order_value_plugin.behat.context.wait
             filters:
                 tags: "@minimum_order_value&&@visitor"
