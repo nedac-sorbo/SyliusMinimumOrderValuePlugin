@@ -15,7 +15,8 @@ final class CreatePage extends SymfonyPage implements CreatePageInterface
         return $this->getSession()->wait(
             500,
             <<<JS
-document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle').checked
+const el = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
+return null !== el && el.checked;
 JS
         );
     }
@@ -32,11 +33,6 @@ JS
 
     public function isMinimumOrderValueInputState(bool $disabled): bool
     {
-        $this->getSession()->executeScript(<<<JS
-document.getElementById('sylius_channel_minimumOrderValue').scrollIntoView();
-JS
-        );
-
         return $this->getSession()->wait(
             10000,
             sprintf(
@@ -92,9 +88,20 @@ JS
 
     public function toggle(): void
     {
-        $this->getSession()->executeScript(<<<JS
+        $session = $this->getSession();
+        if (
+            ! $session->wait(
+                10000,
+                <<<JS
+document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle') !== null
+JS
+            )
+        ) {
+            throw new \Exception("Toggle didn't appear!");
+        }
+
+        $session->executeScript(<<<JS
 const toggle = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
-toggle.scrollIntoView();
 toggle.click();
 JS
         );
