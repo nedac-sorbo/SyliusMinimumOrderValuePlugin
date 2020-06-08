@@ -1,4 +1,4 @@
-@minimum_order_value @admin @create @javascript
+@minimum_order_value @admin @create @javascript @debug
 Feature:
   As an administrator
   I need to be able to manage the minimum order value
@@ -49,6 +49,7 @@ Feature:
     And I should see that the minimum order value input is "empty"
     And I should see that the minimum order value input label is "$"
 
+  @standalone
   Scenario: Toggle enables or clears the input
     When I choose "US Dollar" as the base currency
     And I choose "English (United States)" as a default locale
