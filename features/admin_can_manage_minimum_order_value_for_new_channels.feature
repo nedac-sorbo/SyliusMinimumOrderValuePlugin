@@ -36,7 +36,7 @@ Feature:
     Then I should see that the minimum order value enabled toggle is "on"
     And I should see that the minimum order value input is "enabled"
     When I fill in a minimum order value of "1000"
-    And I add it
+    And I add the channel
     Then I should be notified that it has been successfully created
     And I should see that the minimum order value input is "1000.00"
     And the channel "Mobile channel" should appear in the registry
