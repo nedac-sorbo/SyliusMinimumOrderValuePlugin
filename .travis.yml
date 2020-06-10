@@ -78,4 +78,6 @@ services:
   - mysql
 
 notifications:
-  slack: ${SLACK_TRAVIS_APP_KEY}
+  slack:
+    rooms:
+      - ${SLACK_TRAVIS_APP_KEY}
