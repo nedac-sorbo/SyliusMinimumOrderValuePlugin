@@ -1,4 +1,4 @@
-@minimum_order_value @admin @create @javascript @debug
+@minimum_order_value @admin @create @javascript
 Feature:
   As an administrator
   I need to be able to manage the minimum order value
@@ -24,7 +24,7 @@ Feature:
     And I should see that the minimum order value input is "disabled"
     And I should see that the minimum order value input is empty
     And I should see that the minimum order value input label is "€"
-    When I add it
+    When I add the channel
     Then I should be notified that it has been successfully created
     And I should see that the minimum order value input is "empty"
     And the channel "Mobile channel" should appear in the registry
@@ -49,7 +49,6 @@ Feature:
     And I should see that the minimum order value input is "empty"
     And I should see that the minimum order value input label is "$"
 
-  @standalone
   Scenario: Toggle enables or clears the input
     When I choose "US Dollar" as the base currency
     And I choose "English (United States)" as a default locale

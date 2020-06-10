@@ -14,4 +14,5 @@ interface CreatePageInterface
     public function toggle(): void;
     public function fillInMinimumOrderValue(string $minimum): void;
     public function isMinimumOrderValueInputValue(string $value): bool;
+    public function addTheChannel(): void;
 }

@@ -82,4 +82,12 @@ final class ChannelContext implements Context
     {
         $this->createPage->fillInMinimumOrderValue($minimum);
     }
+
+    /**
+     * @When I add the channel
+     */
+    public function iAddTheChannel(): void
+    {
+        $this->createPage->addTheChannel();
+    }
 }

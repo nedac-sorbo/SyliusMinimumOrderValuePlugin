@@ -66,10 +66,11 @@ JS
 
     public function fillInMinimumOrderValue(string $minimum): void
     {
-        $element = $this->getDocument()->findById('sylius_channel_minimumOrderValue');
-        Assert::notNull($element);
-
-        $element->setValue($minimum);
+        $this->getSession()->executeScript(sprintf(
+            "const el = document.getElementById('sylius_channel_minimumOrderValue');" .
+            " el.value = '%s'; el.scrollIntoView();",
+            $minimum
+        ));
     }
 
     public function isMinimumOrderValueInputValue(string $value): bool
@@ -99,10 +100,20 @@ JS
             throw new \Exception("Toggle didn't appear!");
         }
 
+        sleep(1);
+
         $session->executeScript(<<<JS
 const toggle = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
+toggle.scrollIntoView();
 toggle.click();
 JS
+        );
+    }
+
+    public function addTheChannel(): void
+    {
+        $this->getSession()->executeScript(
+            "document.querySelector('#content > div.ui.segment > form > div.ui.basic.segment > div > button').click()"
         );
     }
 }
