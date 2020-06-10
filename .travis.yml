@@ -76,3 +76,6 @@ after_failure:
 
 services:
   - mysql
+
+notifications:
+  slack: ${SLACK_TRAVIS_APP_KEY}
