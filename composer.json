@@ -42,6 +42,9 @@
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "matthiasnoback/symfony-config-test": "^4.1"
     },
+    "conflict": {
+        "doctrine/inflector": "^1.4.0"
+    },
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
