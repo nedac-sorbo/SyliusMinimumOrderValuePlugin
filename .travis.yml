@@ -78,6 +78,4 @@ services:
   - mysql
 
 notifications:
-  slack:
-    rooms:
-      - ${SLACK_TRAVIS_APP_KEY}
+  slack: nedac:Wt39TfJNxJlC94qy0WvHTuPB
