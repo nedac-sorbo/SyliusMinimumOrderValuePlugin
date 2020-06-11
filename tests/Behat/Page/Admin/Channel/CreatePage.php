@@ -13,7 +13,7 @@ final class CreatePage extends SymfonyPage implements CreatePageInterface
     private function isCheckboxChecked(): bool
     {
         return $this->getSession()->wait(
-            500,
+            5000,
             <<<JS
     null !== document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle') ?
       document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle').checked :
