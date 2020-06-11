@@ -6,6 +6,7 @@ namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel;
 
 use Behat\Mink\Element\NodeElement;
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
+use WebDriver\Exception\JavaScriptError;
 use Webmozart\Assert\Assert;
 
 final class CreatePage extends SymfonyPage implements CreatePageInterface
@@ -112,8 +113,16 @@ JS
 
     public function addTheChannel(): void
     {
-        $this->getSession()->executeScript(
-            "document.querySelector('#content > div.ui.segment > form > div.ui.basic.segment > div > button').click()"
-        );
+        try {
+            $this->getSession()->executeScript(
+                "document.querySelector(" .
+                "'#content > div.ui.segment > form > div.ui.basic.segment > div > button'" .
+                ").click()"
+            );
+        } catch (JavaScriptError $error) {
+            $this->getSession()->executeScript(
+                "document.querySelector('#content > div.ui.segment > form > div.ui.buttons > button').click()"
+            );
+        }
     }
 }
