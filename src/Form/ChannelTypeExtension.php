@@ -18,7 +18,11 @@ use Webmozart\Assert\Assert;
 
 final class ChannelTypeExtension extends AbstractTypeExtension
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /**
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed> $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $formModifier = function (?FormInterface $form, ?string $currencyCode, ?int $minimumOrderValue = null): void {
             Assert::notNull($form);

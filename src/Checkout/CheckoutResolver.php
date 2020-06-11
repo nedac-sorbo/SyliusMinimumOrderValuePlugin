@@ -69,7 +69,7 @@ final class CheckoutResolver implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return array<string, string>
      */
     public static function getSubscribedEvents(): array
     {

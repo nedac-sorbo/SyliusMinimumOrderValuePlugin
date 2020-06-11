@@ -17,6 +17,10 @@ use Symfony\Component\HttpFoundation\RequestMatcher;
 
 final class NedacSyliusMinimumOrderValueExtension extends Extension
 {
+    /**
+     * @param array<string, mixed> $config
+     * @param ContainerBuilder $container
+     */
     private function configureCheckoutResolverIfNeeded(array $config, ContainerBuilder $container): void
     {
         if (!$config['enabled']) {
@@ -50,6 +54,10 @@ final class NedacSyliusMinimumOrderValueExtension extends Extension
         $container->setDefinition('sylius.router.checkout_state', $checkoutStateUrlGeneratorDefinition);
     }
 
+    /**
+     * @param array<string, mixed> $config
+     * @return Definition
+     */
     private function registerCheckoutRedirectListener(array $config): Definition
     {
         $checkoutRedirectListener = new Definition(CheckoutRedirectListener::class, [
@@ -77,7 +85,9 @@ final class NedacSyliusMinimumOrderValueExtension extends Extension
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $config
+     * @param ContainerBuilder $container
+     * @throws \Exception
      */
     public function load(array $config, ContainerBuilder $container): void
     {
