@@ -160,7 +160,7 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
     bin/console doctrine:migrations:migrate
     ```
 
-6. Override templates:
+6. Override templates (For Sylius 1.7 skip this step):
     ```twig
     {# templates/bundles/SyliusAdminBundle/Channel/_form.html.twig #}
 
@@ -296,7 +296,163 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
         {{ sonata_block_render_event('sylius.shop.partial.cart.summary.after_popup_content', {'cart': cart}) }}
     </div>
     ```
-7. Install assets:
+
+7. Override templates (Sylius 1.7 only, skip this step for Sylius 1.6):
+    ```twig
+    {# templates/bundles/SyliusAdminBundle/Channel/_form.html.twig #}
+
+    {{ form_errors(form) }}
+    <div class="ui two column stackable grid">
+        <div class="column">
+            <h4 class="ui top attached large header">{{ 'sylius.ui.general'|trans }}</h4>
+            <div class="ui attached segment">
+                {{ form_errors(form) }}
+                <div class="fields">
+                    <div class="six wide field">
+                        {{ form_row(form.code) }}
+                    </div>
+                    <div class="seven wide field">
+                        {{ form_row(form.name) }}
+                    </div>
+                    <div class="three wide field">
+                        {{ form_row(form.color) }}
+                    </div>
+                </div>
+                <div class="ui hidden divider"></div>
+                {{ form_row(form.enabled) }}
+            </div>
+            <div class="ui attached segment">
+                <div class="field">
+                    {{ form_label(form.hostname) }}
+                    <div class="ui labeled input">
+                        <div class="ui label">http://</div>
+                            {{ form_widget(form.hostname) }}
+                        </div>
+                        {{ form_errors(form.hostname) }}
+                    </div>
+                    {{ form_row(form.contactEmail) }}
+                    {{ form_row(form.description, {'attr': {'rows' : '3'}}) }}
+            </div>
+            <div class="ui attached segment">
+                {{ form_row(form.countries) }}
+            </div>
+            <div class="ui hidden divider"></div>
+            <h4 class="ui top attached large header">{{ 'sylius.ui.money'|trans }}</h4>
+            <div class="ui attached segment">
+                <div class="two fields">
+                    {{ form_row(form.baseCurrency) }}
+                    {{ form_row(form.currencies) }}
+                </div>
+            </div>
+            <div class="ui attached segment">
+                {{ form_row(form.defaultTaxZone) }}
+                {{ form_row(form.taxCalculationStrategy) }}
+            </div>
+        </div>
+        <div class="column">
+            <h4 class="ui top attached large header">{{ form_label(form.shopBillingData) }}</h4>
+            <div class="ui attached segment">
+                <div class="two fields">
+                    {{ form_row(form.shopBillingData.company) }}
+                    {{ form_row(form.shopBillingData.taxId) }}
+                </div>
+                <div class="two fields">
+                    {{ form_row(form.shopBillingData.countryCode) }}
+                    {{ form_row(form.shopBillingData.street) }}
+                </div>
+                <div class="two fields">
+                    {{ form_row(form.shopBillingData.city) }}
+                    {{ form_row(form.shopBillingData.postcode) }}
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <h4 class="ui top attached large header">{{ 'sylius.ui.look_and_feel'|trans }}</h4>
+            <div class="ui attached segment">
+                {{ form_row(form.themeName) }}
+            </div>
+            <div class="ui attached segment">
+                {{ form_row(form.locales) }}
+                {{ form_row(form.defaultLocale) }}
+            </div>
+            <div class="ui attached segment">
+                {{ form_row(form.menuTaxon) }}
+            </div>
+            <div class="ui hidden divider"></div>
+            <div id="nedac-sylius-minimum-order-value-plugin-admin-before" class="ui attached segment">
+                {{ form_row(form.skippingShippingStepAllowed) }}
+                {{ form_row(form.skippingPaymentStepAllowed) }}
+                {{ form_row(form.accountVerificationRequired) }}
+            </div>
+            {% if form.minimumOrderValue is defined %}
+            <div id="nedac-sylius-minimum-order-value-plugin-admin-segment" class="ui segment">
+                {{ form_row(form.minimumOrderValue) }}
+                <div class="ui toggle checkbox">
+                    <input id="nedac-sylius-minimum-order-value-plugin-admin-toggle" type="checkbox" name="public">
+                    <label>{{ 'nedac_sylius_minimum_order_value_plugin.ui.enabled'|trans }}</label>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    ```
+    ```twig
+    {# templates/bundles/SyliusShopBundle/Cart/Summary/_checkout.html.twig #}
+
+    {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+    {% set minimumOrderValue = cart.channel.minimumOrderValue %}
+    {% set total = sylius_order_items_subtotal(cart) %}
+
+    {% if total >= minimumOrderValue %}
+        {% set buttonClass = "ui huge primary fluid labeled icon button" %}
+    {% else %}
+        {% set buttonClass = "ui huge primary fluid labeled icon button disabled" %}
+        {% set formattedMinimum = money.convertAndFormat(minimumOrderValue) %}
+        {% set formattedDifference = money.convertAndFormat(minimumOrderValue - total) %}
+        <div class="ui icon negative message">
+            <i class="warning icon"></i>
+            <div class="content">
+                <div class="header">{{ 'nedac_sylius_minimum_order_value_plugin.ui.attention'|trans }}</div>
+                <p id="nedac-sylius-minimum-order-value-plugin-message">{{ 'nedac_sylius_minimum_order_value_plugin.ui.minimum_not_yet_reached'|trans({ '%minimumOrderValue% ': formattedMinimum, '%difference%': formattedDifference })|raw('br') }}</p>
+            </div>
+        </div>
+    {% endif %}
+    <a href="{{ path('sylius_shop_checkout_start') }}" class="{{ buttonClass }}" id="nedac-checkout-button"><i class="check icon"></i> {{ 'sylius.ui.checkout'|trans }}</a>
+    ```
+    ```twig
+    {# templates/bundles/SyliusShopBundle/Cart/Widget/_popup.html.twig #}
+
+    {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+    {% set minimumOrderValue = cart.channel.minimumOrderValue %}
+    {% set total = sylius_order_items_subtotal(cart) %}
+
+    {% if cart.empty %}
+        {{ 'sylius.ui.your_cart_is_empty'|trans }}.
+    {% else %}
+        <div class="ui list">
+            {% for item in cart.items %}
+                <div class="item">{{ item.quantity }} x <strong>{{ item.product }}</strong> {{ money.convertAndFormat(item.unitPrice) }}</div>
+            {% endfor %}
+            <div class="item"><strong>{{ 'sylius.ui.subtotal'|trans }}</strong>: {{ money.convertAndFormat(cart.itemsTotal) }}</div>
+        </div>
+        <a href="{{ path('sylius_shop_cart_summary') }}" class="ui fluid basic text button">{{ 'sylius.ui.view_and_edit_cart'|trans }}</a>
+        {% if total >= minimumOrderValue %}
+        <div class="ui divider"></div>
+        <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>
+        {% endif %}
+    {% endif %}
+    ```
+    ```twig
+    <div id="sylius-cart-button" class="ui circular cart button">
+        {{ sylius_template_event('sylius.shop.cart.widget.button', {'cart': cart}) }}
+    </div>
+    <div class="ui large flowing cart hidden popup" id="nedac-sylius-minimum-order-value-plugin-popup">
+        {{ sylius_template_event('sylius.shop.cart.widget.popup', {'cart': cart}) }}
+    </div>
+    ```
+
+8. Install assets:
     ```bash
     bin/console sylius:install:assets
     ```
