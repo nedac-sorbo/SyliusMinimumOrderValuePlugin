@@ -1,6 +1,7 @@
 language: php
-
+os: linux
 dist: bionic
+sudo: true
 
 php:
   - '7.4'
@@ -19,10 +20,14 @@ env:
 
 before_install:
   - phpenv config-rm xdebug.ini
+  - sudo fallocate -l 4G /var/swap.1
+  - sudo /sbin/mkswap /var/swap.1
+  - sudo /sbin/swapon /var/swap.1
   - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p "${SYLIUS_CACHE_DIR}"
   - composer config -g github-oauth.github.com "$TOKEN"
-
+  - >
+    ([[ ! -z "$SYLIUS_VERSION" ]] && [[ "1.6" == "$SYLIUS_VERSION" ]] && composer require "sylius/sylius:>=1.6.8 <1.7.0" --no-update && (cd tests/Application && git checkout 1.6)) || true
 install:
   - composer install --no-interaction --prefer-dist
   - (cd tests/Application && yarn install)
@@ -62,6 +67,15 @@ before_script:
 
   # Run webserver
   - (cd tests/Application && bin/console server:run 127.0.0.1:8080 > ../../$SYLIUS_BUILD_DIR/symfony.log 2>&1 &)
+
+jobs:
+  include:
+    - name: Sylius 1.7
+      env:
+        - SYLIUS_VERSION="1.7"
+    - name: Sylius 1.6
+      env:
+        - SYLIUS_VERSION="1.6"
 
 script:
   - composer validate
