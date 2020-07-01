@@ -40,7 +40,10 @@ final class CartSummaryPage extends SymfonyPage implements CartSummaryPageInterf
 
     public function clickCartSummaryButton(): void
     {
-        $cartButton = $this->getDocument()->findById('sylius-cart-button');
+        $cartButton = $this->getDocument()->find(
+            'xpath',
+            'descendant::*[@data-test-cart-button]'
+        );
         Assert::notNull($cartButton);
 
         $cartButton->click();
@@ -50,7 +53,10 @@ final class CartSummaryPage extends SymfonyPage implements CartSummaryPageInterf
     {
         /** @var NodeElement|null $popup */
         $popup = $this->getDocument()->waitFor('1000', function (DocumentElement $current): ?NodeElement {
-            return $current->findById('nedac-sylius-minimum-order-value-plugin-popup');
+            return $current->find(
+                'xpath',
+                'descendant::*[@data-test-widget-popup]'
+            );
         });
         Assert::notNull($popup);
 
