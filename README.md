@@ -84,6 +84,7 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
 ##### Supported Sylius versions:
 <table>
     <tr><td>1.6</td></tr>
+    <tr><td>1.7</td></tr>
 </table>
 
 
