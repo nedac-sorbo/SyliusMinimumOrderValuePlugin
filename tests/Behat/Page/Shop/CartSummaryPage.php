@@ -13,7 +13,10 @@ final class CartSummaryPage extends SymfonyPage implements CartSummaryPageInterf
 {
     public function hasMessageStating(string $minimum, string $difference): bool
     {
-        $messageElement = $this->getDocument()->findById('nedac-sylius-minimum-order-value-plugin-message');
+        $messageElement = $this->getDocument()->find(
+            'xpath',
+            'descendant::*[@data-test-minimum-order-value-plugin-message]'
+        );
 
         if (null === $messageElement) {
             return false;
