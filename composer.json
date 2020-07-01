@@ -40,7 +40,9 @@
         "squizlabs/php_codesniffer": "^3.5",
         "mockery/mockery": "^1.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
-        "matthiasnoback/symfony-config-test": "^4.1"
+        "matthiasnoback/symfony-config-test": "^4.1",
+        "symfony/webpack-encore-bundle": "^1.7",
+        "sylius/bootstrap-theme": "dev-master#b576acbef7ed82e684b500486344aa1d8df44e6a || ^0.1.2"
     },
     "conflict": {
         "doctrine/inflector": "^1.4.0"
