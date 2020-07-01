@@ -7,6 +7,7 @@ FROM php:${PHP_VERSION}-fpm-alpine AS sylius_minimum_order_value_plugin_php
 # persistent / runtime deps
 RUN apk add --no-cache \
                 acl \
+                bash \
                 file \
                 gettext \
                 git \
