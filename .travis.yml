@@ -1,7 +1,6 @@
 language: php
 os: linux
 dist: bionic
-sudo: true
 
 php:
   - '7.4'
@@ -70,12 +69,9 @@ before_script:
 
 jobs:
   include:
-    - name: Sylius 1.7
+    - name: Sylius 1.7 Bootstrap theme
       env:
         - SYLIUS_VERSION="1.7"
-    - name: Sylius 1.6
-      env:
-        - SYLIUS_VERSION="1.6"
 
 script:
   - composer validate
