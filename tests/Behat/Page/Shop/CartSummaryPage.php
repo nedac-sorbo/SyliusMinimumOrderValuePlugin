@@ -29,7 +29,10 @@ final class CartSummaryPage extends SymfonyPage implements CartSummaryPageInterf
 
     public function isCheckoutButtonDisabled(): bool
     {
-        $checkoutButton = $this->getDocument()->findById('nedac-checkout-button');
+        $checkoutButton = $this->getDocument()->find(
+            'xpath',
+            'descendant::*[@data-test-checkout-button]'
+        );
         Assert::notNull($checkoutButton);
 
         return $checkoutButton->hasClass('disabled');
