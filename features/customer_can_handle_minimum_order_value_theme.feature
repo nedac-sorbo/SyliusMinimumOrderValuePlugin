@@ -4,6 +4,9 @@ Feature:
   I want it to be clear that I cannot order when the minimum order value is not reached
   In order to not have a negative experience
 
+  Background:
+    And I'm using channel "Web Channel"
+
   Scenario: Checkout button is disabled and message is displayed on cart summary page when the minimum is not reached
     And the store has a product "Banana" with code "banana"
     And this product belongs to "Fruits"

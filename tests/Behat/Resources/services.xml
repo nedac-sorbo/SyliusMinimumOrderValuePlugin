@@ -6,8 +6,9 @@
 
         <service id="nedac_sylius_minimum_order_value_plugin.behat.context.setup.channel"
                  class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Setup\ChannelContext">
-            <argument type="service" id="sylius.behat.shared_storage" />
-            <argument type="service" id="sylius.manager.channel" />
+            <argument key="$sharedStorage" type="service" id="sylius.behat.shared_storage" />
+            <argument key="$channelManager" type="service" id="sylius.manager.channel" />
+            <argument key="$repository" type="service" id="sylius.repository.channel" />
         </service>
 
         <service id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create"
@@ -18,6 +19,12 @@
         <service id="nedac_sylius_minimum_order_value_plugin.behat.context.ui.admin.channel"
                  class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Admin\ChannelContext">
             <argument type="service" id="nedac_sylius_minimum_order_value_plugin.behat.page.admin.channel.create" />
+        </service>
+
+        <service id="nedac_sylius_minimum_order_value_plugin.behat.context.hook.clear_products"
+                 class="Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Hook\ClearProductsContext">
+            <argument key="$productRepository" type="service" id="sylius.repository.product" />
+            <argument key="$orderItemRepository" type="service" id="sylius.repository.order_item" />
         </service>
 
         <service id="nedac_sylius_minimum_order_value_plugin.behat.page.shop.cart_summary"
