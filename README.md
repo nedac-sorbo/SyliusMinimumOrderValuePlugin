@@ -445,6 +445,8 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
     {% endif %}
     ```
     ```twig
+    {# templates/bundles/SyliusShopBundle/Cart/_widget.html.twig #}
+
     <div id="sylius-cart-button" class="ui circular cart button">
         {{ sylius_template_event('sylius.shop.cart.widget.button', {'cart': cart}) }}
     </div>
