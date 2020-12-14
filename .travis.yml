@@ -25,8 +25,7 @@ before_install:
   - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p "${SYLIUS_CACHE_DIR}"
   - composer config -g github-oauth.github.com "$TOKEN"
-  - >
-    ([[ ! -z "$TEST_APP_VERSION" ]] && [[ "1.6" == "$TEST_APP_VERSION" ]] && composer require "sylius/sylius:>=1.6.8 <1.7.0" --no-update && composer require sylius/bootstrap-theme:^0.1.2 --no-update); (cd tests/Application && git checkout $TEST_APP_VERSION);
+  - [[ ! -z "$TEST_APP_VERSION" ]] && cd tests/Application && git checkout $TEST_APP_VERSION
 install:
   - composer install --no-interaction --prefer-dist
   - (cd tests/Application && yarn install)
@@ -36,7 +35,7 @@ before_script:
   - (cd tests/Application && bin/console doctrine:schema:create -vvv)
   - (cd tests/Application && bin/console assets:install public -vvv)
   - (cd tests/Application && bin/console cache:warmup -vvv)
-  - ([[ ! -z "$TEST_APP_VERSION" ]] && [[ "1.6" == "$TEST_APP_VERSION" ]] && (cd tests/Application && yarn build)) || (cd tests/Application && yarn encore prod)
+  - (cd tests/Application && yarn encore prod)
 
   # Configure display
   - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1680x1050x16
@@ -75,9 +74,6 @@ jobs:
     - name: Sylius 1.7
       env:
         - TEST_APP_VERSION=master
-    - name: Sylius 1.6
-      env:
-        - TEST_APP_VERSION=1.6
 
 script:
   - composer validate
