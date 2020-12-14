@@ -25,7 +25,7 @@ before_install:
   - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p "${SYLIUS_CACHE_DIR}"
   - composer config -g github-oauth.github.com "$TOKEN"
-  - [[ ! -z "$TEST_APP_VERSION" ]] && cd tests/Application && git checkout $TEST_APP_VERSION
+
 install:
   - composer install --no-interaction --prefer-dist
   - (cd tests/Application && yarn install)
