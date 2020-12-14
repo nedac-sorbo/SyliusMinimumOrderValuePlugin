@@ -90,4 +90,4 @@ services:
   - mysql
 
 notifications:
-  slack: nedac:Wt39TfJNxJlC94qy0WvHTuPB
+  slack: $SLACK_TOKEN
