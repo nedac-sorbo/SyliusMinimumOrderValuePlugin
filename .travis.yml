@@ -18,7 +18,7 @@ env:
     - SYLIUS_BUILD_DIR=etc/build
     - CUBRID_VERSION=9.3.0/CUBRID-9.3.0.0206
     - CUBRID_PDO_VERSION=9.3.0.0001
-    - secure: 0b21fdb646a657def08d547588c09c9ea7a5123a
+    - secure: "2FFtaDlpm7Te7N2QXnm40FC3D0oSqrCaEZqd1X70BD4mPeBfNe6s3k3iE8SD/BqNcnEuLkwZA35Pg7XcEjkfzZ91RDwBrx3HhZnTcYg6lem/4cVfMXvcYESHd1xJbnjcAPDzQrW8aQ8iUkAlIA8V8ffslWA/GgcvR7YpWLgRWjmp4n6CT2dQyMvDqLC77xTJI6IaOeMABNy+NpiwXM2G2idUzA51ULSQ5fcNIyRKe4B6HuTPXO/+mIzWlkmCRjgXSGFv+/ojxFTtZuIMCYPa0sr5IpjBBZbBrvL0/g6XdwdfdLn34PgebhgSYtGvcmJGDTJ1bfmwNfNs/0Kvs5OAQvoppENjldyx2j28eKfDsReOYuU2DAypJmuGG9tGd/Rkp6qBVm+ne3vFXi2PM6UU/4Wa0a7kKQ6S7V+RYsATrQrFkJ4V2mgg4ONsE97um8xrkse1U2OFFi63XwrVo5+22OhnpZB9gXudBqZIP3gqNhPu3oVdESEtCY4TrCspjOM+t2G2neIrcoZc/BvWeIRrotdje3YbvVmDvCHWiRw/18kGt35CE/GKG1fEdUC0v8Oheeo7YN1oofU0LMx63qNDSr1sd7jro37YqJxIB3IrfCwDJNqF/LdURZ8wk+97YNrsid99EaY5xIdigK8RawAc/qheman9ndr2yWi5bVxmwuQ="
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -27,7 +27,8 @@ before_install:
   - sudo /sbin/swapon /var/swap.1
   - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p "${SYLIUS_CACHE_DIR}"
-  - composer config -g github-oauth.github.com "$GITHUB_TOKEN"
+  - composer config -g github-oauth.github.com $GITHUB_TOKEN
+  - if [[ ! $GITHUB_TOKEN ]]; then echo "no github token"; fi
 
 install:
   - composer install --no-interaction --prefer-dist
