@@ -18,7 +18,7 @@ env:
     - SYLIUS_BUILD_DIR=etc/build
     - CUBRID_VERSION=9.3.0/CUBRID-9.3.0.0206
     - CUBRID_PDO_VERSION=9.3.0.0001
-    - secure: secure_github_oauth_token_generated_with_travis
+    - secure: 0b21fdb646a657def08d547588c09c9ea7a5123a
 
 before_install:
   - phpenv config-rm xdebug.ini
