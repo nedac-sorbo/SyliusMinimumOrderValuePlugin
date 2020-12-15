@@ -53,6 +53,9 @@
     "extra": {
         "branch-alias": {
             "dev-master": "0.1-dev"
+        },
+        "asset-vcs-driver-options": {
+            "github-no-api": true
         }
     }
 }
