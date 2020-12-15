@@ -34,6 +34,9 @@ install:
   - (cd tests/Application && yarn install)
 
 before_script:
+  # Set the GitHub OAuth token to make use of the 6000 per hour rate limit
+  - "mkdir -p ~/.composer"
+  - cp .travis.composer.config.json ~/.composer/config.json
   - (cd tests/Application && bin/console doctrine:database:create -vvv)
   - (cd tests/Application && bin/console doctrine:schema:create -vvv)
   - (cd tests/Application && bin/console assets:install public -vvv)
