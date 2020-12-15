@@ -74,6 +74,9 @@ jobs:
     - name: Sylius 1.7
       env:
         - TEST_APP_VERSION=master
+    - name: Sylius 1.8
+      env:
+        - TEST_APP_VERSION=master
 
 script:
   - composer validate
