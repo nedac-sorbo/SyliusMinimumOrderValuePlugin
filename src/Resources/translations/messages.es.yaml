@@ -1,0 +1,6 @@
+nedac_sylius_minimum_order_value_plugin:
+  ui:
+    minimum_order_value: "Valor mínimo de pedido"
+    enabled: "Habilitado"
+    attention: "Atención"
+    minimum_not_yet_reached: "Lo sentimos, no puedes ordenar todavía. Hay un valor de pedido mínimo establecido en: %minimumOrderValue% <br/><br/>Debes agregar más artículos al carrito por un valor de %difference%, para continuar con el pago."
