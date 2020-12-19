@@ -291,6 +291,16 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
             {% if total >= minimumOrderValue %}
                 <div class="ui divider"></div>
                 <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>
+            {% else %}
+              {% set formattedMinimum = money.convertAndFormat(minimumOrderValue) %}
+              {% set formattedDifference = money.convertAndFormat(minimumOrderValue - total) %}
+              <div class="ui icon negative small compact message">
+                  <i class="warning icon"></i>
+                  <div class="centered small content">
+                      <div class="header">{{ 'nedac_sylius_minimum_order_value_plugin.ui.attention'|trans }}</div>
+                      <p id="nedac-sylius-minimum-order-value-plugin-message">{{ 'nedac_sylius_minimum_order_value_plugin.ui.widget_minimum_not_yet_reached'|trans({ '%minimumOrderValue%': formattedMinimum, '%difference%': formattedDifference })|raw('br') }}</p>
+                  </div>
+              </div>
             {% endif %}
         {% endif %}
     
@@ -439,6 +449,19 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
         </div>
         <a href="{{ path('sylius_shop_cart_summary') }}" class="ui fluid basic text button">{{ 'sylius.ui.view_and_edit_cart'|trans }}</a>
         {% if total >= minimumOrderValue %}
+            <div class="ui divider"></div>
+            <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>
+        {% else %}
+            {% set formattedMinimum = money.convertAndFormat(minimumOrderValue) %}
+            {% set formattedDifference = money.convertAndFormat(minimumOrderValue - total) %}
+            <div class="ui icon negative small compact message">
+                <i class="warning icon"></i>
+                <div class="centered small content">
+                    <div class="header">{{ 'nedac_sylius_minimum_order_value_plugin.ui.attention'|trans }}</div>
+                    <p id="nedac-sylius-minimum-order-value-plugin-message">{{ 'nedac_sylius_minimum_order_value_plugin.ui.widget_minimum_not_yet_reached'|trans({ '%minimumOrderValue%': formattedMinimum, '%difference%': formattedDifference })|raw('br') }}</p>
+                </div>
+            </div>
+        {% endif %}
         <div class="ui divider"></div>
         <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>
         {% endif %}
