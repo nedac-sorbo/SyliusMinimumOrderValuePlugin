@@ -1,3 +1,0 @@
-[submodule "tests/Application"]
-	path = tests/Application
-	url = https://github.com/nedac-sorbo/SyliusMinimumOrderValuePluginTestApplication.git
