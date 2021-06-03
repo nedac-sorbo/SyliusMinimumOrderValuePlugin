@@ -5,8 +5,8 @@
     "description": "With this Sylius plugin a minimum order value can be set for each channel.",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "sylius/sylius": ">=1.7.9 <1.8.0"
+        "php": "^7.4",
+        "sylius/sylius": ">=1.9.1 <1.10.0"
     },
     "require-dev": {
         "behat/behat": "^3.7",
@@ -36,9 +36,6 @@
         "matthiasnoback/symfony-config-test": "^4.1",
         "symfony/webpack-encore-bundle": "^1.7",
         "sylius/bootstrap-theme": "dev-master#38c386aae7b24dad054b29f14b052bb79638d5e1"
-    },
-    "conflict": {
-        "doctrine/inflector": "^1.4.0"
     },
     "prefer-stable": true,
     "autoload": {
