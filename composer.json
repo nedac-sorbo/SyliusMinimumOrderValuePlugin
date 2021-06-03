@@ -5,7 +5,7 @@
     "description": "With this Sylius plugin a minimum order value can be set for each channel.",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "sylius/sylius": ">=1.7.9 <1.8.0"
     },
     "require-dev": {
