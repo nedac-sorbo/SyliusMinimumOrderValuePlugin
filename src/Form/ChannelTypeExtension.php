@@ -96,7 +96,7 @@ final class ChannelTypeExtension extends AbstractTypeExtension
     /**
      * @return iterable<int, string>
      */
-    public function getExtendedTypes(): iterable
+    public static function getExtendedTypes(): iterable
     {
         return [
             ChannelType::class
