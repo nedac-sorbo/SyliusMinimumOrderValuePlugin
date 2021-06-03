@@ -20,8 +20,6 @@ services:
       - MYSQL_DATABASE=sylius_minimum_order_value
       - MYSQL_USER=sylius
       - MYSQL_PASSWORD=minimum_order_value
-    ports:
-      - "3306:3306"
     network_mode: host
 
   nginx:
@@ -31,8 +29,6 @@ services:
     image: nedac/sylius_minimum_order_value_plugin_nginx:latest
     volumes:
       - .:/srv/sylius
-    ports:
-      - "8080:8080"
     network_mode: host
 
   nodejs:
@@ -40,8 +36,6 @@ services:
       context: .
       target: sylius_minimum_order_value_plugin_nodejs
     image: nedac/sylius_minimum_order_value_plugin_nodejs:latest
-    environment:
-      - GULP_ENV=dev
     volumes:
       - .:/srv/sylius
     network_mode: host
@@ -50,7 +44,4 @@ services:
     image: selenium/standalone-chrome-debug:latest
     volumes:
       - /dev/shm:/dev/shm
-      - ./tests/Resources/video:/video
-    ports:
-      - "5900:5900"
     network_mode: host
