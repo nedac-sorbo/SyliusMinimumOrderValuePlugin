@@ -3,5 +3,4 @@ nedac_sylius_minimum_order_value_plugin:
     minimum_order_value: "Valeur minimum de la commande"
     enabled: "Activé"
     attention: "Attention"
-    minimum_not_yet_reached: "Désolé, vous ne pouvez pas encore commander. Il existe une valeur de commande minimale de: %minimumOrderValue% <br /><br />Vous devez ajouter plus d'articles à votre panier d'une valeur
-de %difference%, afin de procéder au paiement."
+    minimum_not_yet_reached: "Désolé, vous ne pouvez pas encore commander. Il existe une valeur de commande minimale de: %minimumOrderValue% <br /><br />Vous devez ajouter plus d'articles à votre panier d'une valeur de %difference%, afin de procéder au paiement."
