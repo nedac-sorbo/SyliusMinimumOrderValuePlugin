@@ -1,6 +1,6 @@
-ARG PHP_VERSION=7.4
-ARG NODE_VERSION=11
-ARG NGINX_VERSION=1.17
+ARG PHP_VERSION=8.0
+ARG NODE_VERSION=16
+ARG NGINX_VERSION=1.21
 
 FROM php:${PHP_VERSION}-fpm-alpine AS sylius_minimum_order_value_plugin_php
 
@@ -17,10 +17,6 @@ RUN apk add --no-cache \
                 libuuid \
                 bind-tools \
         ;
-
-ARG XDEBUG_VERSION=2.9.2
-ARG REDIS_VERSION=5.0.2
-ARG UUID_VERSION=1.0.4
 
 RUN set -eux; \
         apk add --no-cache --virtual .build-deps \
@@ -51,16 +47,7 @@ RUN set -eux; \
                 sockets \
                 soap \
         ; \
-       pecl install xdebug-${XDEBUG_VERSION}; \
-        pecl install redis-${REDIS_VERSION}; \
-        pecl install uuid-${UUID_VERSION}; \
-        pecl clear-cache; \
-        docker-php-ext-enable \
-                opcache \
-                redis \
-                uuid \
-                xdebug \
-        ; \
+        #pecl clear-cache; \
         \
         runDeps="$( \
                 scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
@@ -72,22 +59,20 @@ RUN set -eux; \
         \
         apk del .build-deps
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY docker/php.ini /usr/local/etc/php/php.ini
 COPY docker/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN set -eux; \
-    echo "memory_limit=4G" >> /usr/local/etc/php/php-cli.ini; \
-        composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --classmap-authoritative; \
-        composer clear-cache
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 COPY docker/php-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+# TODO: Install Sylius-standard
+# TODO: Install plugin
 WORKDIR /srv/sylius/tests/Application
 
 ENTRYPOINT ["docker-entrypoint"]
@@ -104,22 +89,19 @@ RUN set -eux; \
                 gcc \
                 git \
                 make \
-                python \
         ;
 
 COPY docker/nodejs-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 ENTRYPOINT ["docker-entrypoint"]
-CMD ["yarn", "--cwd=/srv/sylius/tests/Application", "watch"]
+CMD ["yarn", "watch"]
 
 FROM nginx:${NGINX_VERSION}-alpine AS sylius_minimum_order_value_plugin_nginx
 
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /srv/sylius
-
-RUN apk add --no-cache bash
 
 COPY docker/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
