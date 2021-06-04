@@ -5,6 +5,7 @@ services:
     build:
       context: .
       target: sylius_minimum_order_value_plugin_php
+      network: host
     image: nedac/sylius_minimum_order_value_plugin_php:latest
     environment:
       - APP_ENV=test
