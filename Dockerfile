@@ -16,7 +16,10 @@ RUN apk add --no-cache \
                 libxml2 \
                 libuuid \
                 bind-tools \
+                jq \
         ;
+
+ARG XDEBUG_VERSION=3.0.4
 
 RUN set -eux; \
         apk add --no-cache --virtual .build-deps \
@@ -47,7 +50,10 @@ RUN set -eux; \
                 sockets \
                 soap \
         ; \
-        #pecl clear-cache; \
+        pecl clear-cache; \
+        docker-php-ext-enable \
+                xdebug \
+        ; \
         \
         runDeps="$( \
                 scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
@@ -71,8 +77,23 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 COPY docker/php-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
-# TODO: Install Sylius-standard
-# TODO: Install plugin
+WORKDIR /srv
+ARG SYLIUS_VERSION=1.9
+
+RUN git clone --depth 1 --single-branch --branch "$SYLIUS_VERSION" https://github.com/Sylius/Sylius-Standard.git sylius
+
+WORKDIR /srv/sylius
+
+RUN set -eux; \
+    cat composer.json | jq --indent 4 '. + {"symfony":{"endpoint":"http://localhost:8080"}}' > composer.json.tmp; \
+    mv composer.json.tmp composer.json
+
+ARG PLUGIN_VERSION=dev-master
+RUN set -eux; \
+    composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
+    composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress; \
+    composer clear-cache
+
 WORKDIR /srv/sylius/tests/Application
 
 ENTRYPOINT ["docker-entrypoint"]
