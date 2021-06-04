@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.0
+ARG PHP_VERSION=7.4
 ARG NODE_VERSION=16
 ARG NGINX_VERSION=1.21
 
@@ -50,6 +50,7 @@ RUN set -eux; \
                 sockets \
                 soap \
         ; \
+        pecl install xdebug-${XDEBUG_VERSION}; \
         pecl clear-cache; \
         docker-php-ext-enable \
                 xdebug \
@@ -84,14 +85,18 @@ RUN git clone --depth 1 --single-branch --branch "$SYLIUS_VERSION" https://githu
 
 WORKDIR /srv/sylius
 
+# TODO: Make configurable
 RUN set -eux; \
-    cat composer.json | jq --indent 4 '. + {"symfony":{"endpoint":"http://localhost:8080"}}' > composer.json.tmp; \
-    mv composer.json.tmp composer.json
+    cat composer.json | jq --indent 4 '. * {"extra":{"symfony":{"allow-contrib":true,"endpoint":"http://localhost:8080"}}}' > composer.json.tmp; \
+    mv composer.json.tmp composer.json; \
+    cat composer.json | jq --indent 4 '. * {"config":{"secure-http":false}}' > composer.json.tmp; \
+    mv composer.json.tmp composer.json; \
+    cat composer.json
 
 ARG PLUGIN_VERSION=dev-master
 RUN set -eux; \
     composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
-    composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress; \
+    composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress -vvv; \
     composer clear-cache
 
 WORKDIR /srv/sylius/tests/Application
