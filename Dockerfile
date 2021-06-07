@@ -1,5 +1,5 @@
 ARG PHP_VERSION=7.4
-ARG NODE_VERSION=16
+ARG NODE_VERSION=13
 ARG NGINX_VERSION=1.21
 
 FROM php:${PHP_VERSION}-fpm-alpine AS sylius_minimum_order_value_plugin_php
@@ -90,16 +90,13 @@ RUN set -eux; \
     cat composer.json | jq --indent 4 '. * {"extra":{"symfony":{"allow-contrib":true,"endpoint":"http://localhost:8080"}}}' > composer.json.tmp; \
     mv composer.json.tmp composer.json; \
     cat composer.json | jq --indent 4 '. * {"config":{"secure-http":false}}' > composer.json.tmp; \
-    mv composer.json.tmp composer.json; \
-    cat composer.json
+    mv composer.json.tmp composer.json
 
 ARG PLUGIN_VERSION=dev-master
 RUN set -eux; \
     composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
     composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress -vvv; \
     composer clear-cache
-
-WORKDIR /srv/sylius/tests/Application
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
@@ -115,7 +112,23 @@ RUN set -eux; \
                 gcc \
                 git \
                 make \
+                python2 \
         ;
+
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/package.json ./package.json
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/gulpfile.babel.js ./gulpfile.babel.js
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/.babelrc ./.babelrc
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/gulpfile.babel.js ./vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/gulpfile.babel.js
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/private/
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/gulpfile.babel.js ./vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/gulpfile.babel.js
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/private/
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/UiBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/UiBundle/Resources/private/
+
+RUN set -eux; \
+    yarn install; \
+    yarn cache clean
+
+RUN yarn build
 
 COPY docker/nodejs-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
@@ -125,9 +138,14 @@ CMD ["yarn", "watch"]
 
 FROM nginx:${NGINX_VERSION}-alpine AS sylius_minimum_order_value_plugin_nginx
 
+RUN apk add --no-cache bash
+
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /srv/sylius
+
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/public public/
+COPY --from=sylius_minimum_order_value_plugin_nodejs /srv/sylius/public public/
 
 COPY docker/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
