@@ -10,8 +10,8 @@ services:
     environment:
       - APP_ENV=dev
       - DATABASE_URL=mysql://sylius:minimum_order_value@127.0.0.1:3306/sylius_minimum_order_value
-#    volumes:
-#      - .:/srv/sylius
+    volumes:
+      - .:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin
     network_mode: host
 
   mysql:
