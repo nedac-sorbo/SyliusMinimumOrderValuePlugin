@@ -12,6 +12,7 @@ services:
       - DATABASE_URL=mysql://sylius:minimum_order_value@127.0.0.1:3306/sylius_minimum_order_value
     volumes:
       - .:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin
+      - public-media:/srv/sylius/public/media:rw
     network_mode: host
 
   mysql:
@@ -27,20 +28,25 @@ services:
     build:
       context: .
       target: sylius_minimum_order_value_plugin_nginx
+      network: host
     image: nedac/sylius_minimum_order_value_plugin_nginx:latest
-#    volumes:
-#      - .:/srv/sylius
+    volumes:
+      - public-media:/srv/sylius/public/media:ro,nocopy
     network_mode: host
 
   nodejs:
     build:
       context: .
       target: sylius_minimum_order_value_plugin_nodejs
+      network: host
     image: nedac/sylius_minimum_order_value_plugin_nodejs:latest
     network_mode: host
-#
-#  chrome:
-#    image: selenium/standalone-chrome-debug:latest
-#    volumes:
-#      - /dev/shm:/dev/shm
-#    network_mode: host
+
+  chrome:
+    image: selenium/standalone-chrome-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    network_mode: host
+
+volumes:
+  public-media:

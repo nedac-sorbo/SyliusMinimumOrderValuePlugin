@@ -96,7 +96,13 @@ ARG PLUGIN_VERSION=dev-master
 RUN set -eux; \
     composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
     composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress -vvv; \
-    composer clear-cache
+    composer recipes:install nedac/sylius-minimum-order-value-plugin --force -n; \
+    composer clear-cache; \
+    cat src/Entity/Channel/Channel.php
+
+VOLUME /srv/sylius/var
+
+VOLUME /srv/sylius/public/media
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
