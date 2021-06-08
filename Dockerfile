@@ -17,6 +17,7 @@ RUN apk add --no-cache \
                 libuuid \
                 bind-tools \
                 jq \
+                py3-pip \
         ;
 
 ARG XDEBUG_VERSION=3.0.4
@@ -84,6 +85,13 @@ ARG SYLIUS_VERSION=1.9
 RUN git clone --depth 1 --single-branch --branch "$SYLIUS_VERSION" https://github.com/Sylius/Sylius-Standard.git sylius
 
 WORKDIR /srv/sylius
+
+RUN set -eux; \
+    pip install yq; \
+    yq -y -i '.imports[.imports|length] |= . + {"resource": "../vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/config/services_test.xml"}' config/services_test.yaml; \
+    yq -y -i '.imports[.imports|length] |= . + "vendor/nedac/sylius-minimum-order-value-plugin/tests/Behat/Resources/suites.yml"' behat.yml.dist; \
+    yq -y -i '.default.extensions."Behat\\MinkExtension".base_url = "http://localhost/"' behat.yml.dist; \
+    cat behat.yml.dist
 
 # TODO: Make configurable
 RUN set -eux; \
