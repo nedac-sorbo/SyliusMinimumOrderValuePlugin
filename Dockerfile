@@ -2,6 +2,9 @@ ARG PHP_VERSION=7.4
 ARG NODE_VERSION=13
 ARG NGINX_VERSION=1.21
 
+##################################################
+#                     PHP                        #
+##################################################
 FROM php:${PHP_VERSION}-fpm-alpine AS sylius_minimum_order_value_plugin_php
 
 # persistent / runtime deps
@@ -115,7 +118,9 @@ VOLUME /srv/sylius/public/media
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
-
+##################################################
+#                     NODEJS                     #
+##################################################
 FROM node:${NODE_VERSION}-alpine AS sylius_minimum_order_value_plugin_nodejs
 
 WORKDIR /srv/sylius
@@ -150,6 +155,9 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["yarn", "watch"]
 
+##################################################
+#                     NGINX                      #
+##################################################
 FROM nginx:${NGINX_VERSION}-alpine AS sylius_minimum_order_value_plugin_nginx
 
 RUN apk add --no-cache bash
@@ -165,3 +173,19 @@ COPY docker/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
 
 CMD /wait-for-it.sh -t 0 127.0.0.1:9000 -- nginx -g "daemon off;"
+
+##################################################
+#                     CHROME                     #
+##################################################
+FROM ubuntu:focal AS sylius_minimum_order_value_plugin_chrome
+
+RUN set -eux; \
+    apt update; \
+    apt install -yqq wget gnupg; \
+    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -; \
+    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
+    apt install -yqq ./google-chrome-stable_current_amd64.deb; \
+    apt install -yqq google-chrome-stable; \
+    apt clean
+
+CMD ["google-chrome-stable", "--enable-automation", "--disable-background-networking", "--no-default-browser-check", "--no-first-run", "--disable-popup-blocking", "--disable-default-apps", "--allow-insecure-localhost", "--disable-translate", "--disable-extensions", "--no-sandbox", "--enable-features=Metal", "--headless", "--remote-debugging-port=9222", "--window-size=2880,1800", "--proxy-server='direct://'", "--proxy-bypass-list='*'", "http://127.0.0.1"]

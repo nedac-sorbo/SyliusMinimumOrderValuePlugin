@@ -43,7 +43,11 @@ services:
     network_mode: host
 
   chrome:
-    image: selenium/standalone-chrome-debug:latest
+    build:
+      context: .
+      target: sylius_minimum_order_value_plugin_chrome
+      network: host
+    image: nedac/sylius_minimum_order_value_plugin_chrome:latest
     volumes:
       - /dev/shm:/dev/shm
     network_mode: host
