@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Nedac\SyliusMinimumOrderValuePlugin\Model\ChannelInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -14,12 +14,12 @@ use Webmozart\Assert\Assert;
 final class ChannelContext implements Context
 {
     private SharedStorageInterface $sharedStorage;
-    private ObjectManager $channelManager;
+    private EntityManagerInterface $channelManager;
     private ChannelRepositoryInterface $repository;
 
     public function __construct(
         SharedStorageInterface $sharedStorage,
-        ObjectManager $channelManager,
+        EntityManagerInterface $channelManager,
         ChannelRepositoryInterface $repository
     ) {
         $this->sharedStorage = $sharedStorage;
