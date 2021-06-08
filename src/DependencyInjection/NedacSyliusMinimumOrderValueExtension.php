@@ -7,6 +7,7 @@ namespace Nedac\SyliusMinimumOrderValuePlugin\DependencyInjection;
 use Nedac\SyliusMinimumOrderValuePlugin\Checkout\CheckoutResolver;
 use Sylius\Bundle\CoreBundle\Checkout\CheckoutRedirectListener;
 use Sylius\Bundle\CoreBundle\Checkout\CheckoutStateUrlGenerator;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -14,6 +15,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\RequestMatcher;
+use Webmozart\Assert\Assert;
 
 final class NedacSyliusMinimumOrderValueExtension extends Extension
 {
@@ -23,7 +25,7 @@ final class NedacSyliusMinimumOrderValueExtension extends Extension
      */
     private function configureCheckoutResolverIfNeeded(array $config, ContainerBuilder $container): void
     {
-        if (!$config['enabled']) {
+        if (false === $config['enabled']) {
             return;
         }
 
@@ -91,7 +93,10 @@ final class NedacSyliusMinimumOrderValueExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container): void
     {
-        $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
+        $configuration = $this->getConfiguration([], $container);
+        Assert::isInstanceOf($configuration, ConfigurationInterface::class);
+
+        $config = $this->processConfiguration($configuration, $config);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.xml');

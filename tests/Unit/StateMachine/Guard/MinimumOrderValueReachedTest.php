@@ -15,16 +15,19 @@ final class MinimumOrderValueReachedTest extends TestCase
 {
     private function getCalculatorMock(?int $subtotal = null): OrderItemsSubtotalCalculatorInterface
     {
+        /** @var Mockery\MockInterface $calculator */
         $calculator = Mockery::mock(OrderItemsSubtotalCalculatorInterface::class);
 
         if (null !== $subtotal) {
-            $calculator
-                ->shouldReceive('getSubtotal')
+            /** @var Mockery\Expectation $expectation */
+            $expectation = $calculator->shouldReceive('getSubtotal');
+            $expectation
                 ->once()
                 ->andReturn($subtotal)
             ;
         }
 
+        /** @var OrderItemsSubtotalCalculatorInterface $calculator */
         return $calculator;
     }
 
@@ -32,12 +35,14 @@ final class MinimumOrderValueReachedTest extends TestCase
     {
         $order = Mockery::mock(OrderInterface::class);
 
-        $order
-            ->shouldReceive('getChannel')
+        /** @var Mockery\Expectation $expectation */
+        $expectation = $order->shouldReceive('getChannel');
+        $expectation
             ->once()
             ->andReturn($this->getChannelMock($minimumOrderValue))
         ;
 
+        /** @var OrderInterface $order */
         return $order;
     }
 
@@ -45,19 +50,21 @@ final class MinimumOrderValueReachedTest extends TestCase
     {
         $channel = Mockery::mock(ChannelInterface::class);
 
-        $channel
-            ->shouldReceive('getMinimumOrderValue')
+        /** @var Mockery\Expectation $expectation */
+        $expectation = $channel->shouldReceive('getMinimumOrderValue');
+        $expectation
             ->once()
             ->andReturn($minimumOrderValue)
         ;
 
+        /** @var ChannelInterface $channel */
         return $channel;
     }
 
     public function testCanInstantiate(): void
     {
         $guard = new MinimumOrderValueReached($this->getCalculatorMock());
-        $this->assertNotNull($guard);
+        self::assertNotNull($guard);
     }
 
     private function doTestGuard(bool $equals, ?int $minimumOrderValue = null, ?int $subtotal = null): void
@@ -65,7 +72,7 @@ final class MinimumOrderValueReachedTest extends TestCase
         $guard = new MinimumOrderValueReached($this->getCalculatorMock($subtotal));
         $result = $guard->isMinimumOrderValueReached($this->getOrderMock($minimumOrderValue));
 
-        $this->assertEquals($equals, $result);
+        self::assertEquals($equals, $result);
     }
 
     /**

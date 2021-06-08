@@ -1,17 +1,7 @@
-includes:
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
-
 parameters:
     reportUnmatchedIgnoredErrors: false
 
-    excludes_analyse:
-        # Makes PHPStan crash
-        - 'src/DependencyInjection/Configuration.php'
-
-        # Test dependencies
-        - 'tests/Application/app/**.php'
-        - 'tests/Application/src/**.php'
-
     ignoreErrors:
-        - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given./'
+        - '/Parameter #1 \$config \(array<string, mixed>\) of method Nedac\\SyliusMinimumOrderValuePlugin\\DependencyInjection\\NedacSyliusMinimumOrderValueExtension::load\(\) should be contravariant with parameter \$configs \(array\) of method Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface::load\(\)/'
+        - '/Parameter #2 \$options \(array<string, mixed>\) of method Nedac\\SyliusMinimumOrderValuePlugin\\Form\\ChannelTypeExtension::buildForm\(\) should be contravariant with parameter \$options \(array\) of method Symfony\\Component\\Form\\AbstractTypeExtension::buildForm\(\)/'
+        - '/Parameter #2 \$options \(array<string, mixed>\) of method Nedac\\SyliusMinimumOrderValuePlugin\\Form\\ChannelTypeExtension::buildForm\(\) should be contravariant with parameter \$options \(array\) of method Symfony\\Component\\Form\\FormTypeExtensionInterface::buildForm\(\)/'

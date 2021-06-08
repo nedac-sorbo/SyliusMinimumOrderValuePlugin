@@ -52,7 +52,7 @@ final class CartSummaryPage extends SymfonyPage implements CartSummaryPageInterf
     public function isWidgetCheckoutButtonHidden(): bool
     {
         /** @var NodeElement|null $popup */
-        $popup = $this->getDocument()->waitFor('1000', function (DocumentElement $current): ?NodeElement {
+        $popup = $this->getDocument()->waitFor(120, function (DocumentElement $current): ?NodeElement {
             return $current->find(
                 'xpath',
                 'descendant::*[@data-test-widget-popup]'

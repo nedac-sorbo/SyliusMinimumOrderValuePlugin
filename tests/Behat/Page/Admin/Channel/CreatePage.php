@@ -113,16 +113,10 @@ JS
 
     public function addTheChannel(): void
     {
-        try {
-            $this->getSession()->executeScript(
-                "document.querySelector(" .
-                "'#content > div.ui.segment > form > div.ui.basic.segment > div > button'" .
-                ").click()"
-            );
-        } catch (JavaScriptError $error) {
-            $this->getSession()->executeScript(
-                "document.querySelector('#content > div.ui.segment > form > div.ui.buttons > button').click()"
-            );
-        }
+        $this->getSession()->executeScript(
+            "document.querySelector(" .
+            "'#content > div.ui.segment > form > div.ui.basic.segment > div > button'" .
+            ").click()"
+        );
     }
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Nedac\SyliusMinimumOrderValuePlugin\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Webmozart\Assert\Assert;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -15,13 +17,12 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('nedac_sylius_minimum_order_value_plugin');
-        if (\method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC layer for symfony/config 4.1 and older
-            $rootNode = $treeBuilder->root('nedac_sylius_minimum_order_value_plugin');
-        }
 
+        $rootNode = $treeBuilder->getRootNode();
+
+        Assert::isInstanceOf($rootNode, ArrayNodeDefinition::class);
+
+        /** @phpstan-ignore-next-line */
         $rootNode
             ->children()
                 ->arrayNode('checkout_resolver')
@@ -33,7 +34,7 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('pattern')
                             ->defaultValue('/checkout/.+')
                             ->validate()
-                            ->ifTrue(function ($pattern) {
+                            ->ifTrue(function ($pattern): bool {
                                 return !is_string($pattern);
                             })
                                 ->thenInvalid('Invalid pattern "%s"')
