@@ -91,7 +91,7 @@ RUN set -eux; \
     yq -y -i '.imports[.imports|length] |= . + {"resource": "../vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/config/services_test.xml"}' config/services_test.yaml; \
     yq -y -i '.imports[.imports|length] |= . + "vendor/nedac/sylius-minimum-order-value-plugin/tests/Behat/Resources/suites.yml"' behat.yml.dist; \
     yq -y -i '.default.extensions."Behat\\MinkExtension".base_url = "http://localhost/"' behat.yml.dist; \
-    cat behat.yml.dist
+    yq -y -i '.default.extensions."FriendsOfBehat\\SuiteSettingsExtension".paths = ["vendor/nedac/sylius-minimum-order-value-plugin/features"]' behat.yml.dist
 
 # TODO: Make configurable
 RUN set -eux; \
