@@ -1,4 +1,7 @@
-'use strict';
+import { $, jQuery } from 'jquery';
+
+window.$ = $;
+window.jQuery = jQuery;
 
 class NedacSyliusMinimumOrderValuePlugin {
   constructor() {
@@ -7,34 +10,37 @@ class NedacSyliusMinimumOrderValuePlugin {
   }
   init() {
     this.syliusChannelBaseCurrencySelect = document.getElementById('sylius_channel_baseCurrency');
-    const currencyCode = this.syliusChannelBaseCurrencySelect.options[this.syliusChannelBaseCurrencySelect.selectedIndex].value;
+    const currencyCode = this
+      .syliusChannelBaseCurrencySelect
+      .options[this.syliusChannelBaseCurrencySelect.selectedIndex]
+      .value;
 
     if (currencyCode !== undefined) {
       const form = document.getElementsByName('sylius_channel')[0];
 
-      let data = {};
+      const data = {};
       data[this.syliusChannelBaseCurrencySelect.name] = currencyCode;
       this.minimumOrderValueInput = document.getElementById('sylius_channel_minimumOrderValue');
-      if (null !== this.minimumOrderValueInput) {
-        const value = this.minimumOrderValueInput.value;
-        if ('' !== value) {
+      if (this.minimumOrderValueInput !== null) {
+        const { value } = this.minimumOrderValueInput;
+        if (value !== '') {
           data[this.minimumOrderValueInput.name] = value;
         }
       }
 
-      let method = form.method;
+      let { method } = form;
       const hiddenMethodElements = document.getElementsByName('_method');
       if (hiddenMethodElements.length > 0) {
         const hiddenMethodValue = hiddenMethodElements[0].value;
-        if ('' !== hiddenMethodValue) {
+        if (hiddenMethodValue !== '') {
           method = hiddenMethodValue;
         }
       }
 
       $.ajax({
-        url : form.action,
+        url: form.action,
         type: method,
-        data : data,
+        data,
         success: (html) => {
           const segment = $(html).find('#nedac-sylius-minimum-order-value-plugin-admin-segment');
           if (segment !== null) {
@@ -46,6 +52,7 @@ class NedacSyliusMinimumOrderValuePlugin {
                 segment.insertAfter(beforeElement);
                 this.initToggle();
               } else {
+                // eslint-disable-next-line no-console
                 console.error('Element with id: "nedac-sylius-minimum-order-value-plugin-admin-before" not found!');
               }
             } else {
@@ -53,27 +60,30 @@ class NedacSyliusMinimumOrderValuePlugin {
               this.initToggle();
             }
           }
-        }
+        },
       });
     } else {
+      // eslint-disable-next-line no-console
       console.error('Could not find currencyCode!');
     }
     this.addEventListeners();
   }
   addEventListeners() {
-    this.syliusChannelBaseCurrencySelect.addEventListener('change', (event) => {
+    this.syliusChannelBaseCurrencySelect.addEventListener('change', () => {
       this.init();
     });
   }
   initToggle() {
     this.toggle = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
     if (this.toggle === null) {
+      // eslint-disable-next-line no-console
       console.error('Could not find element with id: "nedac-sylius-minimum-order-value-plugin-admin-toggle"!');
       return;
     }
 
     this.minimumOrderValueInput = document.getElementById('sylius_channel_minimumOrderValue');
-    if (null === this.minimumOrderValueInput) {
+    if (this.minimumOrderValueInput === null) {
+      // eslint-disable-next-line no-console
       console.error('Could not find element with id: "sylius_channel_minimumOrderValue"!');
       return;
     }
@@ -87,7 +97,7 @@ class NedacSyliusMinimumOrderValuePlugin {
       }
     });
 
-    if ('' === this.minimumOrderValueInput.value) {
+    if (this.minimumOrderValueInput.value === '') {
       this.minimumOrderValueInput.disabled = true;
       this.toggle.checked = false;
     } else {

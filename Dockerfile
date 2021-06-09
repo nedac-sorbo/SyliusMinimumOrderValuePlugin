@@ -147,6 +147,8 @@ COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/syli
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/UiBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/UiBundle/Resources/private/
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public/
 
+RUN sed -i 's/node: true,/node: true,\n    browser: true/g' .eslintrc.js
+
 RUN set -eux; \
     yarn install; \
     yarn cache clean
