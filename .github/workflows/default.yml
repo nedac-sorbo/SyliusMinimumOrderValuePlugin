@@ -1,0 +1,34 @@
+name: default
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and start containers
+        run: docker-compose up -d --build
+      - name: Wait for services
+        run: |
+            while status="$(docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" "$(docker-compose ps -q php)")"; do
+              case $status in
+                starting) sleep 1;;
+                healthy) exit 0;;
+                unhealthy)
+                  docker-compose ps
+                  docker-compose logs
+                  exit 1
+                ;;
+              esac
+            done
+            exit 1
+      - name: Install sub dependencies
+        run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && composer install)"
+      - name: Check code style
+        run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && vendor/bin/phpcs)"
