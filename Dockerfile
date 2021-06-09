@@ -144,6 +144,7 @@ COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/syli
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/gulpfile.babel.js ./vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/gulpfile.babel.js
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/private/
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/UiBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/UiBundle/Resources/private/
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public/
 
 RUN set -eux; \
     yarn install; \

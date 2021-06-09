@@ -41,6 +41,8 @@ services:
       target: sylius_minimum_order_value_plugin_nodejs
       network: host
     image: nedac/sylius_minimum_order_value_plugin_nodejs:latest
+    volumes:
+      - ./src/Resources/public:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public
     network_mode: host
 
   chrome:
