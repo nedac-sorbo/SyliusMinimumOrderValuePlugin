@@ -104,7 +104,7 @@ JS
         sleep(1);
 
         $session->executeScript(<<<JS
-const toggle = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
+var toggle = document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle');
 toggle.scrollIntoView();
 toggle.click();
 JS
