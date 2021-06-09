@@ -9,6 +9,11 @@
         "sylius/sylius": ">=1.9.1 <1.10.0"
     },
     "require-dev": {
+        "behat/behat": "^3.8",
+        "dmore/chrome-mink-driver": "^2.7",
+        "friends-of-behat/mink-extension": "^2.4",
+        "friends-of-behat/page-object-extension": "^0.3",
+        "friendsofsymfony/oauth-server-bundle": "^1.6 || >2.0.0-alpha.0 ^2.0@dev",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-doctrine": "^0.12",
@@ -18,8 +23,7 @@
         "squizlabs/php_codesniffer": "^3.5",
         "mockery/mockery": "^1.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.2",
-        "matthiasnoback/symfony-config-test": "^4.2",
-        "friendsofsymfony/oauth-server-bundle": "^1.6 || >2.0.0-alpha.0 ^2.0@dev"
+        "matthiasnoback/symfony-config-test": "^4.2"
     },
     "prefer-stable": true,
     "autoload": {
