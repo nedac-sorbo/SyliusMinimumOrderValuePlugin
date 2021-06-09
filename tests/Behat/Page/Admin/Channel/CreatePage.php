@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel;
 
 use Behat\Mink\Element\NodeElement;
+use DMore\ChromeDriver\ChromeDriver;
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
 use WebDriver\Exception\JavaScriptError;
 use Webmozart\Assert\Assert;
@@ -123,6 +124,10 @@ JS
     public function iFollowAndLeave(string $link): void
     {
         $this->getSession()->getPage()->clickLink($link);
-        $this->getSession()->getDriver()->acceptAlert();
+        $driver = $this->getSession()->getDriver();
+
+        Assert::isInstanceOf($driver, ChromeDriver::class);
+
+        $driver->acceptAlert();
     }
 }
