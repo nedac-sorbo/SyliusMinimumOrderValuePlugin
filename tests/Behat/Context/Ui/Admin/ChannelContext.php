@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Page\Admin\Channel\CreatePageInterface;
 use Webmozart\Assert\Assert;
 
-final class ChannelContext implements Context
+final class ChannelContext extends RawMinkContext implements Context
 {
     private CreatePageInterface $createPage;
 
@@ -91,12 +92,19 @@ final class ChannelContext implements Context
         $this->createPage->addTheChannel();
     }
 
-
     /**
      * @Then I follow :link and Leave
      */
     public function iFollowAndLeave(string $link): void
     {
         $this->createPage->iFollowAndLeave($link);
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function resetSession(): void
+    {
+        $this->getSession()->reset();
     }
 }

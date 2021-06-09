@@ -61,3 +61,4 @@ Feature:
     Then I should see that the minimum order value enabled toggle is "off"
     And I should see that the minimum order value input is "disabled"
     And I should see that the minimum order value input is empty
+    And I follow "Cancel" and Leave
