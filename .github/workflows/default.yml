@@ -14,14 +14,18 @@ jobs:
         uses: actions/checkout@v2
       - name: Build and start containers
         run: docker-compose up -d --build
+      - name: Lint javascript
+        run: docker-compose exec nodejs yarn eslint vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public/
       - name: Install sub dependencies
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && composer install)"
+      # TODO: Run phpcpd
       - name: Code style
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && vendor/bin/phpcs)"
       - name: Static analysis
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && vendor/bin/phpstan analyse src/ tests/ --level max)"
       - name: Unit tests
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && vendor/bin/phpunit --testdox)"
+      # TODO: Run twigcs
       - name: Create database schema
         run: docker-compose exec -T php bin/console doctrine:schema:create
       - name: End to end tests

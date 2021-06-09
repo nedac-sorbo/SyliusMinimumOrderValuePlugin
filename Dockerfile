@@ -139,6 +139,7 @@ RUN set -eux; \
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/package.json ./package.json
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/gulpfile.babel.js ./gulpfile.babel.js
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/.babelrc ./.babelrc
+COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/.eslintrc.js ./.eslintrc.js
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/gulpfile.babel.js ./vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/gulpfile.babel.js
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/private vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/private/
 COPY --from=sylius_minimum_order_value_plugin_php /srv/sylius/vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/gulpfile.babel.js ./vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/gulpfile.babel.js
