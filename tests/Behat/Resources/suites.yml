@@ -24,6 +24,7 @@ default:
                 - sylius.behat.context.ui.admin.notification
 
                 - nedac_sylius_minimum_order_value_plugin.behat.context.ui.admin.channel
+                - Behat\MinkExtension\Context\MinkContext
             filters:
                 tags: "@minimum_order_value&&@admin"
         visitor:

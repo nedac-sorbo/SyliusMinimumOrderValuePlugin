@@ -115,7 +115,7 @@ JS
     {
         $this->getSession()->executeScript(
             "document.querySelector(" .
-            "'#content > div.ui.segment > form > div.ui.basic.segment > div > button'" .
+            "'#content > div.ui.segment > form > div.ui.buttons > button'" .
             ").click()"
         );
     }
