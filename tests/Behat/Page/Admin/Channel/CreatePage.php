@@ -119,4 +119,10 @@ JS
             ").click()"
         );
     }
+
+    public function iFollowAndLeave(string $link): void
+    {
+        $this->getSession()->getPage()->clickLink($link);
+        $this->getSession()->getDriver()->acceptAlert();
+    }
 }

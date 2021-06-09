@@ -48,6 +48,7 @@ Feature:
     And I should see that the minimum order value input is "disabled"
     And I should see that the minimum order value input is "empty"
     And I should see that the minimum order value input label is "$"
+    And I follow "Cancel" and Leave
 
   Scenario: Toggle enables or clears the input
     When I choose "US Dollar" as the base currency

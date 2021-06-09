@@ -90,4 +90,13 @@ final class ChannelContext implements Context
     {
         $this->createPage->addTheChannel();
     }
+
+
+    /**
+     * @Then I follow :link and Leave
+     */
+    public function iFollowAndLeave(string $link): void
+    {
+        $this->createPage->iFollowAndLeave($link);
+    }
 }
