@@ -14,22 +14,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Build and start containers
         run: docker-compose up -d --build
-# FIXME: Check the php service state
-#      - name: Wait for services
-#        run: |
-#            while status="$(docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" "$(docker-compose ps -q php)")"; do
-#              echo "$status";
-#              case $status in
-#                starting) sleep 1;;
-#                healthy) exit 0;;
-#                unhealthy)
-#                  docker-compose ps
-#                  docker-compose logs
-#                  exit 1
-#                ;;
-#              esac
-#            done
-#            exit 1
       - name: Install sub dependencies
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && composer install)"
       - name: Code style
