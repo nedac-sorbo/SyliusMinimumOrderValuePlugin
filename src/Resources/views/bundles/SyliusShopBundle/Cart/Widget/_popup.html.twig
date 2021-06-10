@@ -1,6 +1,6 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
-{% set minimumOrderValue = cart.channel.minimumOrderValue %}
+{% set minimum_order_value = cart.channel.minimumOrderValue %}
 {% set total = sylius_order_items_subtotal(cart) %}
 
 {% if cart.empty %}
@@ -13,7 +13,7 @@
         <div class="item"><strong>{{ 'sylius.ui.subtotal'|trans }}</strong>: {{ money.convertAndFormat(cart.itemsTotal) }}</div>
     </div>
     <a href="{{ path('sylius_shop_cart_summary') }}" class="ui fluid basic text button">{{ 'sylius.ui.view_and_edit_cart'|trans }}</a>
-    {% if total >= minimumOrderValue %}
+    {% if total >= minimum_order_value %}
         <div class="ui divider"></div>
         <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>
     {% endif %}
