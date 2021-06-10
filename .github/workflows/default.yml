@@ -12,8 +12,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Login to container registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+      - name: Pull container images
+        run: docker-compose pull || true
       - name: Build and start containers
         run: docker-compose up -d --build
+      - name: Push container images
+        run: |
+          docker-compose push php && \
+          docker-compose push nginx && \
+          docker-compose push nodejs && \
+          docker-compose push chrome
       - name: Lint javascript
         run: docker-compose exec -T nodejs yarn eslint vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public/
       - name: Install sub dependencies

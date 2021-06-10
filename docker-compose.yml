@@ -6,7 +6,7 @@ services:
       context: .
       target: sylius_minimum_order_value_plugin_php
       network: host
-    image: nedac/sylius_minimum_order_value_plugin_php:latest
+    image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_php:latest
     environment:
       - APP_ENV=test
       - DATABASE_URL=mysql://sylius:minimum_order_value@127.0.0.1:3306/sylius_minimum_order_value
@@ -30,7 +30,7 @@ services:
       context: .
       target: sylius_minimum_order_value_plugin_nginx
       network: host
-    image: nedac/sylius_minimum_order_value_plugin_nginx:latest
+    image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_nginx:latest
     volumes:
       - public-media:/srv/sylius/public/media:ro,nocopy
     network_mode: host
@@ -40,7 +40,7 @@ services:
       context: .
       target: sylius_minimum_order_value_plugin_nodejs
       network: host
-    image: nedac/sylius_minimum_order_value_plugin_nodejs:latest
+    image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_nodejs:latest
     volumes:
       - ./src/Resources/public:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public
     network_mode: host
@@ -50,7 +50,7 @@ services:
       context: .
       target: sylius_minimum_order_value_plugin_chrome
       network: host
-    image: nedac/sylius_minimum_order_value_plugin_chrome:latest
+    image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_chrome:latest
     volumes:
       - /dev/shm:/dev/shm
     network_mode: host
