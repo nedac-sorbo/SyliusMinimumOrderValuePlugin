@@ -28,7 +28,10 @@ jobs:
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && vendor/bin/phpstan analyse src/ tests/ --level max)"
       - name: Unit tests
         run: docker-compose exec -T php sh -c "(cd vendor/nedac/sylius-minimum-order-value-plugin && vendor/bin/phpunit --testdox)"
-      # TODO: Run twigcs
+      - name: Install twigcs
+        run: docker-compose exec -T php composer global require friendsoftwig/twigcs
+      - name: Template style
+        run: docker-compose exec -T php twigcs vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/views
       - name: Create database schema
         run: docker-compose exec -T php bin/console doctrine:schema:create
       - name: End to end tests
