@@ -101,6 +101,14 @@ final class ChannelContext extends RawMinkContext implements Context
     }
 
     /**
+     * @When I wait :seconds seconds
+     */
+    public function iWaitSeconds(string $seconds): void
+    {
+        sleep((int) $seconds);
+    }
+
+    /**
      * @BeforeScenario
      */
     public function resetSession(): void
