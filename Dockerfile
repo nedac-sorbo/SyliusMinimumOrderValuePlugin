@@ -124,7 +124,7 @@ RUN set -eux; \
     composer clear-cache
 
 VOLUME /srv/sylius/var
-
+VOLUME /srv/sylius/public
 VOLUME /srv/sylius/public/media
 
 ENTRYPOINT ["docker-entrypoint"]

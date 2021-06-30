@@ -44,7 +44,6 @@ services:
       network: host
     image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_nodejs:latest
     volumes:
-      - public:/srv/sylius/public:rw
       - .:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin
     network_mode: host
 
