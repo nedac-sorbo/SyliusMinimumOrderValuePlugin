@@ -119,10 +119,9 @@ ARG PLUGIN_VERSION=^1.0@dev
 RUN set -eux; \
     composer config extra.symfony.allow-contrib true; \
     composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
+    rm -f src/Entity/Channel/Channel.php; \
     composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress -vvv; \
-    composer recipes:install nedac/sylius-minimum-order-value-plugin --force -n; \
-    composer clear-cache; \
-    cat src/Entity/Channel/Channel.php
+    composer clear-cache
 
 VOLUME /srv/sylius/var
 
