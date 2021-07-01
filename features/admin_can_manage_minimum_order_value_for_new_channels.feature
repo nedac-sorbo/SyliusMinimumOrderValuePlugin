@@ -44,6 +44,7 @@ Feature:
   Scenario: Multiple currencies and changing the default (currency label should update)
     When I choose "US Dollar" as the base currency
     And I choose "English (United States)" as a default locale
+    And I wait 2 seconds
     Then I should see that the minimum order value enabled toggle is "off"
     And I should see that the minimum order value input is "disabled"
     And I should see that the minimum order value input is "empty"

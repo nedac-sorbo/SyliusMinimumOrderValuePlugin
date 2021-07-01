@@ -16,6 +16,8 @@ jobs:
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
       - name: Pull container images
         run: docker-compose pull || true
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
       - name: Build and start containers
         run: docker-compose up -d --build
       - name: Push container images
@@ -46,3 +48,6 @@ jobs:
         run: docker-compose exec -T php bin/console doctrine:schema:create
       - name: End to end tests
         run: docker-compose exec -T php vendor/bin/behat
+      - name: Failure
+        if: ${{ failure() }}
+        run: cat etc/build/*.html

@@ -33,9 +33,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
         "symfony": {
             "require": "5.3.*"
         }

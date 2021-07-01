@@ -1,8 +1,4 @@
-import { $, jQuery } from 'jquery';
-
-window.$ = $;
-window.jQuery = jQuery;
-
+/* eslint-disable no-undef */
 class NedacSyliusMinimumOrderValuePlugin {
   constructor() {
     this.syliusChannelBaseCurrencySelect = null;
@@ -109,3 +105,4 @@ class NedacSyliusMinimumOrderValuePlugin {
 
 const nedacSyliusMinimumOrderValuePlugin = new NedacSyliusMinimumOrderValuePlugin();
 nedacSyliusMinimumOrderValuePlugin.init();
+/* eslint-enable no-undef */

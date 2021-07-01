@@ -76,7 +76,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN set -eux; \
     wget -O phive.phar https://phar.io/releases/phive.phar; \
     wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc; \
-    gpg --keyserver pool.sks-keyservers.net --recv-keys 0x9D8A98B29B2D5D79; \
+    gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79; \
     gpg --verify phive.phar.asc phive.phar; \
     chmod +x phive.phar; \
     mv phive.phar /usr/local/bin/phive
@@ -109,22 +109,22 @@ RUN set -eux; \
 ARG PRIVATE_FLEX="false"
 RUN set -eux; \
     if [ -z "$PRIVATE_FLEX" ] && [ "$PRIVATE_FLEX" != "false" ]; then \
-        cat composer.json | jq --indent 4 '. * {"extra":{"symfony":{"allow-contrib":true,"endpoint":"http://localhost:8080"}}}' > composer.json.tmp; \
+        cat composer.json | jq --indent 4 '. * {"extra":{"symfony":{"endpoint":"http://localhost:8080"}}}' > composer.json.tmp; \
         mv composer.json.tmp composer.json; \
         cat composer.json | jq --indent 4 '. * {"config":{"secure-http":false}}' > composer.json.tmp; \
         mv composer.json.tmp composer.json; \
     fi
 
-ARG PLUGIN_VERSION=dev-master
+ARG PLUGIN_VERSION=^1.0@dev
 RUN set -eux; \
+    composer config extra.symfony.allow-contrib true; \
     composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
+    rm -f src/Entity/Channel/Channel.php; \
     composer require nedac/sylius-minimum-order-value-plugin:"$PLUGIN_VERSION" --no-progress -vvv; \
-    composer recipes:install nedac/sylius-minimum-order-value-plugin --force -n; \
-    composer clear-cache; \
-    cat src/Entity/Channel/Channel.php
+    composer clear-cache
 
 VOLUME /srv/sylius/var
-
+VOLUME /srv/sylius/public
 VOLUME /srv/sylius/public/media
 
 ENTRYPOINT ["docker-entrypoint"]

@@ -14,6 +14,7 @@ services:
       - .:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin
       - ./etc/build:/srv/sylius/etc/build
       - public-media:/srv/sylius/public/media:rw
+      - public:/srv/sylius/public:rw
     network_mode: host
 
   mysql:
@@ -32,6 +33,7 @@ services:
       network: host
     image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_nginx:latest
     volumes:
+      - public:/srv/sylius/public:ro
       - public-media:/srv/sylius/public/media:ro,nocopy
     network_mode: host
 
@@ -42,7 +44,7 @@ services:
       network: host
     image: ghcr.io/nedac-sorbo/sylius_minimum_order_value_plugin_nodejs:latest
     volumes:
-      - ./src/Resources/public:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin/src/Resources/public
+      - .:/srv/sylius/vendor/nedac/sylius-minimum-order-value-plugin
     network_mode: host
 
   chrome:
@@ -56,4 +58,5 @@ services:
     network_mode: host
 
 volumes:
+  public:
   public-media:
