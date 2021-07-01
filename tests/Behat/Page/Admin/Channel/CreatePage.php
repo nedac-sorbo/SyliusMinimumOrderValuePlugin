@@ -14,12 +14,19 @@ final class CreatePage extends SymfonyPage implements CreatePageInterface
 {
     private function isCheckboxChecked(): bool
     {
+        if (
+            !$this->getSession()->wait(10000, <<<JS
+document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle') !== null
+JS
+            )
+        ) {
+            throw new \Exception('Toggle did not appear!');
+        }
+
         return $this->getSession()->wait(
             5000,
             <<<JS
-    null !== document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle') ?
-      document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle').checked :
-      false;
+document.getElementById('nedac-sylius-minimum-order-value-plugin-admin-toggle').checked;
 JS
         );
     }
@@ -36,6 +43,15 @@ JS
 
     public function isMinimumOrderValueInputState(bool $disabled): bool
     {
+        if (
+            !$this->getSession()->wait(10000, <<<JS
+document.getElementById('sylius_channel_minimumOrderValue') !== null
+JS
+            )
+        ) {
+            throw new \Exception('Input did not appear!');
+        }
+
         return $this->getSession()->wait(
             10000,
             sprintf(
