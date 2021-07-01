@@ -48,3 +48,6 @@ jobs:
         run: docker-compose exec -T php bin/console doctrine:schema:create
       - name: End to end tests
         run: docker-compose exec -T php vendor/bin/behat
+      - name: Failure
+        if: ${{ failure() }}
+        run: cat etc/build/*.html
