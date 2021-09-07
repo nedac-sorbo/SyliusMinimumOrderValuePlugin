@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.0
 ARG NODE_VERSION=13
 ARG NGINX_VERSION=1.21
 
@@ -92,7 +92,8 @@ COPY docker/php-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 WORKDIR /srv
-ARG SYLIUS_VERSION=1.9
+
+ARG SYLIUS_VERSION=1.10
 
 # TODO: Install using composer
 RUN git clone --depth 1 --single-branch --branch "$SYLIUS_VERSION" https://github.com/Sylius/Sylius-Standard.git sylius
@@ -115,7 +116,7 @@ RUN set -eux; \
         mv composer.json.tmp composer.json; \
     fi
 
-ARG PLUGIN_VERSION=^1.0@dev
+ARG PLUGIN_VERSION=1.1.x-dev
 RUN set -eux; \
     composer config extra.symfony.allow-contrib true; \
     composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \

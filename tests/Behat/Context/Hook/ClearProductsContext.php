@@ -7,6 +7,8 @@ namespace Tests\Nedac\SyliusMinimumOrderValuePlugin\Behat\Context\Hook;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Call\BeforeScenario;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
 
@@ -28,11 +30,13 @@ final class ClearProductsContext implements Context
      */
     public function clearProducts(BeforeScenarioScope $scope): void
     {
+        /** @var OrderItemInterface[] $orderItems */
         $orderItems = $this->orderItemRepository->findAll();
         foreach ($orderItems as $orderItem) {
             $this->orderItemRepository->remove($orderItem);
         }
 
+        /** @var ProductInterface[] $products */
         $products = $this->productRepository->findAll();
         foreach ($products as $product) {
             $this->productRepository->remove($product);
