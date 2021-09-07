@@ -77,7 +77,7 @@ Please see the official Sylius docs on how to configure the checkout resolver, s
 
 ##### Supported Sylius versions:
 <table>
-    <tr><td>1.9</td></tr>
+    <tr><td>1.10</td></tr>
 </table>
 
 > **_NOTE:_** *This plugin requires PHP 7.4 or up*
